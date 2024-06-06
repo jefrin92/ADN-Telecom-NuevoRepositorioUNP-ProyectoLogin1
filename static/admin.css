@@ -1,0 +1,27 @@
+.titulo_bienvenida{
+    text-align: center;
+    margin-top: 200px;
+    font-family: "Segoe UI";
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+body {
+    
+    background: url("/static/pxfuel.jpg") no-repeat center center fixed;
+}
+/* Estilos para el logo */
+.header__logo {
+  height: 50px;
+}
+
+/* Mejorando los estilos para la imagen del usuario */
+.content {
+  text-align: center; /* Asegura que el contenido esté centrado */
+  width: 100%; /* Ocupa el ancho completo del viewport */
+}
+
+.imagen_admin {
+  height: 50%; /* Ajusta esto si la imagen parece demasiado grande o pequeña */
+  display: block; /* Asegura que la imagen se trate como bloque */
+  margin: 20px auto; /* Margen superior e inferior de 20px y centrado horizontalmente */
+}

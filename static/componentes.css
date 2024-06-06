@@ -1,0 +1,111 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f4f4;
+  color: #333;
+  line-height: 1.6;
+  padding: 0px;
+}
+
+h1,
+h2,
+h3 {
+  color: #0056b3;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.compo {
+  background: rgb(66, 120, 129);
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+img {
+  width: 100%;
+  max-width: 300px;
+  display: block;
+  margin: 10px auto;
+  border-radius: 5px;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+table,
+th,
+td {
+  border: 1px solid #000000;
+  padding: 8px;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+  color: #333;
+}
+
+th {
+  background-color: #0056b3;
+  color: rgb(253, 253, 253);
+  border-width: 11px;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #dfd3d3;
+  padding: 30px;
+}
+
+a {
+  text-decoration: none;
+  color: #0056b3;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+.titulo_tabla {
+  text-align: center;
+}
+
+/* Estilos para las celdas de la tabla */
+.table td,
+.table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+/* Estilos para las celdas de la cabecera de la tabla */
+.table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4caf50;
+  color: white;
+}
+
+/* Estilos para las filas de la tabla al pasar el mouse */
+.table tr:hover {
+  background-color: #ddd;
+}
+
+.caja {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
+/* Estilos para el logo */
+.header__logo {
+  height: 50px;
+}

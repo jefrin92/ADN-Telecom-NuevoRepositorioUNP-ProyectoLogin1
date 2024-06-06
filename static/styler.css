@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    max-width: 1200px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+.network-diagram {
+    text-align: center;
+    margin-top: 20px;
+}
+.node {
+    fill: #4CAF50;
+    stroke: #333;
+    stroke-width: 2px;
+}
+.link {
+    stroke: #999;
+    stroke-width: 2px;
+}
+.label {
+    font-size: 12px;
+    fill: #000;
+    text-anchor: middle;
+}

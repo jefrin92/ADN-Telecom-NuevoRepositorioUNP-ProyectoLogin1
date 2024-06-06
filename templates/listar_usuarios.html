@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/listar.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <title>ADN Telecom: Recomendaciones para colegios</title>
+  </head>
+  <body>
+    
+    <div>
+        
+      <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <img src="/static/image/logo.png" class="header__logo" />
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/admin">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/listar">Usuarios</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/resultados">Resultados</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/componentes">Componentes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">Salir</a>
+              </li>
+            </ul>
+            <span class="navbar-text">
+            
+            </span>
+          </div>
+        </div>
+      </nav>
+        </div>
+    <!-----lista de usuarios-->
+    {% if usuarios %}
+    <div>
+        <h2 class="titulo_user">Lista de usuarios</h2>
+        <button class="btn btn-success" onclick="location.href='/registro';">Agregar Usuario</button>
+    </div>
+    <div class="caja">
+    <table class="table table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Nro</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Correo</th>
+          <th scope="col">Password</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mostrar in usuarios %}
+        <tr>
+          <th scope="row">{{ mostrar.id}}</th>
+          <td>{{ mostrar.nombre}}</td>
+          <td>{{ mostrar.correo}}</td>
+          <td>{{ mostrar.password}}</td>
+          
+            <td>
+                <a href="/modificar/{{ mostrar.id }}" class="btn btn-primary">Editar</a>
+                
+                 <!----------eliminar boton------------->
+                <a href="#" data-bs-toggle="modal" data-bs-target="#eliminarUsuarioModal" class="btn btn-danger">Eliminar</a>
+
+                <div class="modal fade" id="eliminarUsuarioModal" tabindex="-1" aria-labelledby="eliminarUsuarioModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="eliminarUsuarioModalLabel">Confirmar Eliminación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        ¿Estás seguro de que deseas eliminar este usuario?
+                        <input type="hidden" id="eliminarUsuarioId" name="eliminarUsuarioId">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <a type="button" class="btn btn-danger" href="/eliminar/{{ mostrar.id }}">Eliminar</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>no hay datos</p>
+    {% endif %}
+    </div>
+    
+    <!----------------------->
+  </body>
+</html>

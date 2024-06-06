@@ -1,0 +1,47 @@
+/* Estilos para el encabezado */
+.header {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Estilos para el logo */
+.header__logo {
+    height: 50px;
+}
+
+/* Estilos para la navegación */
+.header__nav {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.header__nav-item {
+    list-style: none;
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.header__nav-item a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Estilos para la tabla de recomendaciones */
+.recomendaciones-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.recomendaciones-table th, .recomendaciones-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.recomendaciones-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+.titulo_tabla{
+    text-align: center;
+}
