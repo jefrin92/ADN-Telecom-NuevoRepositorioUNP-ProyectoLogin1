@@ -200,7 +200,7 @@ def listar_estructura():
         cur.close()
         return redirect('/listar')
     
-    return render_template('estructura.html', estructura=estructura)
+    return render_template('usuario/estructura.html', estructura=estructura)
     
     
 
