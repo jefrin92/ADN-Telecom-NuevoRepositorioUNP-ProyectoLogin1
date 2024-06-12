@@ -1,0 +1,15 @@
+{
+    "hola": "¡Hola Admin! ¿Cómo puedo ayudarte hoy?",
+    "adios": "¡Adiós Admin! Que tengas un buen día.",
+    "como estas": "Estoy bien, gracias por preguntar. ¿Y tú?",
+    "ubicacion": "Nuestra sede está en Lima, Perú.",
+    "horario": "Nuestro horario de atención es de lunes a viernes de 9:00 AM a 6:00 PM.",
+    "producto": "Tenemos una amplia gama de productos tecnológicos, incluyendo routers, switches y servidores.",
+    "contacto": "Puedes contactarnos al correo contacto@adntelecom.com o al teléfono +51 123 456 789.",
+    "cisco 350 series cbs350-24t-4g-uk": "MARCA - Cisco | Descripción - Este modelo incluye 24 puertos Gigabit Ethernet y 4 puertos combinados SFP, que permiten conexiones flexibles de enlace ascendente | Año - El Cisco 350 Series fue lanzado en 2020 | Costo - $400 a $600 USD",
+    "cisco 250 series sg250-26-k9-uk": "MARCA - Cisco | Descripción - Este switch gestionado con 26 puertos proporciona características avanzadas de red y seguridad | Año - El Cisco 250 Series fue lanzado en 2018 | Costo - $200 a $400 USD",
+    "cisco 110 series switch sf110d-16hp": "MARCA - Cisco | Descripción - Este modelo incluye 16 puertos Fast Ethernet con soporte PoE (Power over Ethernet), ideal para pequeñas oficinas o redes domésticas | Año - El Cisco 110 Series fue lanzado en 2015 | Costo - $100 a $200 USD"
+
+
+        
+}

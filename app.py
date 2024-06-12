@@ -201,6 +201,20 @@ def listar_estructura():
         return redirect('/listar')
     
     return render_template('usuario/estructura.html', estructura=estructura)
+
+# Ruta para obtener la respuesta del bot
+@app.route('/get_response', methods=['POST'])
+def get_response():
+    user_message = request.json.get('message').lower()  # Obtener el mensaje del usuario en minúsculas
+    bot_response = generate_bot_response(user_message)
+    return jsonify({'response': bot_response})
+
+# Función para generar la respuesta del bot
+def generate_bot_response(message):
+    with open('respuestas.json', 'r', encoding='utf-8') as file:
+        responses = json.load(file)
+    
+    return responses.get(message, "Lo siento, no entiendo tu mensaje.")
     
     
 

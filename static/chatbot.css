@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0px;
+}
+#chatbox {
+    width: 400px;
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    display: none; /* Ocultar el chatbox inicialmente */
+    position: fixed;
+    bottom: 20px;
+    left: 850px; /* Ajustar la posición para estar junto al ícono de chat */
+    z-index: 1000;
+}
+#messages {
+    height: 200px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+.message {
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 5px;
+}
+.user-message {
+    text-align: right;
+}
+.bot-message {
+    text-align: left;
+    background-color: #cceeff; /* Color celeste */
+}
+input[type="text"] {
+    width: calc(81% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+#chat-icon {
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: url('https://img.icons8.com/fluency/48/chat.png') no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+    z-index: 999;
+}
