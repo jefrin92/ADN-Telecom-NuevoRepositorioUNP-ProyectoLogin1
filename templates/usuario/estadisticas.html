@@ -1,88 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">  
-<head>
+<html lang="en">
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-    crossorigin="anonymous"
-  />
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="/static/estadisticas.css" />
-    <link rel="stylesheet" href="/static/chatbot.css" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/estadisticas.js"></script>
 
     <title>Estadísticas de Componentes de Red Cisco</title>
-    
-</head>
-<body>
+  </head>
+  <body>
     <div>
-        <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
-            <div class="container-fluid">
-              <img src="/static/image/logo.png" class="header__logo" />
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/usuario">Inicio</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/estadisticas">Estadisticas</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/recomendaciones">Recomendaciones</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/">Salir</a>
-                  </li>
-                </ul>
-                <span class="navbar-text">
-                
-                </span>
-              </div>
-            </div>
-          </nav>
-      </div>
-    <h1>Estadísticas de Componentes de Red Cisco</h1>
-   
-    <p>Aquí se muestran las estadísticas de los componentes de red Cisco más top, basadas en información real de internet.</p>
-    <div id="statistics">
-      <img src="barras.png" alt="imagen de barras">
-        <h2>Estadísticas</h2>
-        
-        <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">Componente</th>
-                <th scope="col">Cantidad</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Router</td>
-                <td>100</td>
-              </tr>
-              <tr>
-                <td>Switch</td>
-                <td>200</td>
-              </tr>
-              <tr>
-                <td>Firewall</td>
-                <td>50</td>
-              </tr>
-              <tr>
-                <td>Access Point</td>
-                <td>150</td>
-              </tr>
-              <tr>
-                <td>Modem</td>
-                <td>50</td>
-              </tr>
-            </tbody>
-          </table>
+      <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <img src="/static/image/logo.png" class="header__logo" />
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarText"
+            aria-controls="navbarText"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/usuario"
+                  >Inicio</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/estadisticas">Estadisticas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/recomendaciones">Recomendaciones</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">Salir</a>
+              </li>
+            </ul>
+            <span class="navbar-text"></span>
+          </div>
+        </div>
+      </nav>
     </div>
-</body>
+    
+    <div class="container-sm">
+    <h1>Estadísticas de Componentes de Red</h1>
+    <p>
+      Aquí se muestran las estadísticas de los componentes de red Cisco más top,
+      basadas en información real de internet.
+    </p>
+    <div id="statistics">
+      <h2>Distribución de Equipos</h2>
+      <div class="equipos"><canvas id="chartEquipos"></canvas></div>
+      
+
+      <h2>Tabla de Cantidades por Tipo de Equipo</h2>
+      <table class="table table-striped ">
+        <thead>
+          <tr class="table-primary">
+            <th>Equipo</th>
+            <th>Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in estadisticas.equipo_counts %}
+          <tr>
+            <td>{{ item.Equipo }}</td>
+            <td>{{ item.Cantidad }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <h2>Número de Recomendaciones</h2>
+
+      <div id="slider"></div>
+      <p class="descripcion">
+        Del total de componentes se obtuvo solo estas recomendaciones
+      </p>
+      <div class="recomend">
+        
+        <input
+          type="hidden"
+          id="sliderInput"
+          value="{{ estadisticas.num_recommendations }}"
+        />
+        <canvas id="chartRecomendaciones"></canvas></div>
+      
+
+      <h2>Índice de Aprobación de Recomendaciones</h2>
+      <p class="descripcion2">
+        Se muestra el índice de aprobación de las recomendaciones
+      </p>
+      <div class="aprobacion"><canvas id="aprobacionChart" width="200" height="100"></canvas></div>
+      
+
+    </div>
+  </div>
+</div>
+    <script id="equiposData" type="application/json">{{ estadisticas.equipo_counts | tojson }}</script>
+    <script id="recomendacionesData" type="application/json">{{ estadisticas.num_recommendations | tojson }}</script>
+    <script id="totalComponents" type="application/json">{{ estadisticas.total_components | tojson }}</script>
+    <script id="approvalIndices" type="application/json">{{ estadisticas.approval_indices | tojson }}</script>
+    
+  </body>
 </html>

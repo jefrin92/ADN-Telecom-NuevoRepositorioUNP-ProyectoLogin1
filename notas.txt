@@ -1,0 +1,6 @@
+agrege la vista de recomendaciones, con el slide qu viene con un js slider, para validar , ademas que se agrego y se modifico un poco 
+sistema de recomendaciones , para darle esa carga de 10 maximos, asi tendriamos un top 10 de recomendaciones segun el indice.
+se creo algunas funciones en app.py tambien y se modifico la funcion de recomendacion
+se creo la funcion recomend, update component_Data, add_iamgenfield apra cargar imagenes, tambien una funcionq ue limpia variables categoricas
+que se realizo a la vez la modificacion del codigo de analisis y recomendaciones.
+

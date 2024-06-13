@@ -1,47 +1,123 @@
-/* Estilos para el encabezado */
+.mt-5{
+  background-color: blanchedalmond;
+  border-radius: 15px;
+  padding: 10px;
+}
+
 .header {
-    background-color: #f8f9fa;
-    padding: 20px;
-    text-align: center;
+  background-color: #f8f9fa;
+  padding: 20px;
+  text-align: center;
 }
 
 /* Estilos para el logo */
 .header__logo {
-    height: 50px;
+  height: 50px;
 }
 
 /* Estilos para la navegación */
 .header__nav {
-    background-color: #343a40;
-    color: #fff;
+  background-color: #343a40;
+  color: #fff;
 }
 
 .header__nav-item {
-    list-style: none;
-    display: inline-block;
-    margin: 0 10px;
+  list-style: none;
+  display: inline-block;
+  margin: 0 10px;
 }
 
 .header__nav-item a {
-    color: #fff;
-    text-decoration: none;
+  color: #fff;
+  text-decoration: none;
 }
 
 /* Estilos para la tabla de recomendaciones */
 .recomendaciones-table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.recomendaciones-table th, .recomendaciones-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
+.recomendaciones-table th,
+.recomendaciones-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
 }
 
 .recomendaciones-table th {
-    background-color: #4CAF50;
-    color: white;
+  background-color: #4caf50;
+  color: white;
 }
-.titulo_tabla{
-    text-align: center;
+.titulo_tabla {
+  text-align: center;
+}
+#slider-container {
+  width: 60%;
+  padding: 10px;
+  
+}
+
+#slider {
+  width: 60%;
+  margin: auto;
+  background-color: rgb(143, 214, 255);
+  height: 10px;
+}
+
+.noUi-handle {
+  background: #5021fa;
+  border-radius: 20px;
+}
+
+.noUi-tooltip {
+  display: none;
+  
+}  
+
+.noUi-horizontal .noUi-handle {
+  height: 10px;
+  width:10px;
+  background-color: #4836e4;
+  border-radius:40%;
+}
+
+.noUi-horizontal {
+  height: 10px;
+  border-radius: 50%;
+}
+
+.card-img-top {
+  width: 100%;
+  height: auto;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 0.875rem;
+}
+
+h1{
+  padding-top: 80px;
+  text-align: center;
+  padding-bottom: 50px;
+}
+
+.container-md{
+  margin-top: 20px;
+  margin-bottom: 60px;  
+  background-color: blanchedalmond;
+  border-radius: 25px;
+}
+h4{
+  padding-top: 40px;
+  text-align: center;
+}
+
+.caja{
+  background-color: #23598f;
+    padding: 10px;
 }

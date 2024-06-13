@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/static/recomendaciones.css" />
-    <link rel="stylesheet" href="/static/chatbot.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -12,88 +11,100 @@
       crossorigin="anonymous"
     />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.1/nouislider.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.css">
     
+   
+
     <title>Recomendaciones</title>
   </head>
   <body>
     <div>
-        <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
-            <div class="container-fluid">
-              <img src="/static/image/logo.png" class="header__logo" />
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/usuario">Inicio</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/estadisticas">Estadisticas</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/recomendaciones">Recomendaciones</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/">Salir</a>
-                  </li>
-                </ul>
-                <span class="navbar-text">
-                
-                </span>
-              </div>
-            </div>
-          </nav>
-      </div>
-    <header class="header">
-      <div class="header__logo-container">
-        <img src="/static/image/logo.png" class="header__logo" />
-      </div>
-      <nav class="header__nav">
-        <ul>
-          <li class="header__nav-item"><a href="#">About</a></li>
-          <li class="header__nav-item"><a href="#">Portafolio</a></li>
-          <li class="header__nav-item"><a href="#">Contacto</a></li>
-          <li class="header__nav-item"><a href="#">About</a></li>
-        </ul>
-      </nav>
-    </header>
-
-    <div>
-      <h1 class="titulo_tabla">Recomendaciones</h1>
-      <ul>
-        <div class="caja">
-          <table class="table table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>Componente recomendado</th>
-                    <th>ID</th>
-                    <th>Equipo</th>
-                    <th>Modelo</th>
-                    <th>Marca</th>
-                    <th>Año</th>                   
-                    <th>Índice de aprobación</th>
-                </tr>
-            </thead>
-            <tbody>
-              {% for items in recomend %}
-              <tr>
-                <td>{{ items['Componente recomendado'] }}</td>
-                <td>{{ items['iD'] }}</td>
-                <td>{{ items['Equipo'] }}</td>
-                <td>{{ items['Modelo'] }}</td>
-                <td>{{ items['Marca'] }}</td>
-                <td>{{ items['Año'] }}</td>
-                <td>{{ items['approval_Index'] }}</td>
-
-                
-            </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+      <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <img src="/static/image/logo.png" class="header__logo" />
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarText"
+            aria-controls="navbarText"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/usuario"
+                  >Inicio</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/estadisticas">Estadisticas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/recomendaciones">Recomendaciones</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">Salir</a>
+              </li>
+            </ul>
+            <span class="navbar-text"> </span>
+          </div>
         </div>
-      </ul>
+      </nav>
     </div>
-    <script src="/static/leer.js"></script>
+    <div class="caja">
+    <div class="container-md">
+    <div>
+      <h1>Recomendaciones de Componentes de Red</h1>
+      <form id="recomendacionesForm" method="post">
+          <input type="hidden" id="sliderInput" name="num_recommendations" value="{{ num_recommendations }}">
+          <div id="slider"></div>
+          <div><h4>Número de recomendaciones</h4><h4 id="slider-value">{{ num_recommendations }}</h4></div>
+      </form>
+     </div>
+      
+
+      <!-- Tarjetas de recomendaciones -->
+      <div class="row mt-5">
+        {% for item in recomend %}
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <img
+              src="{{ item['Imagen'] }}"
+              class="card-img-top"
+              alt="Imagen de componente"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ item['Modelo'] }}</h5>
+              <p class="card-text">
+                <strong>Modelo:</strong> {{ item['Equipo'] }}<br />
+                <strong>Marca:</strong> {{ item['Marca'] }}<br />
+                <strong>Costo:</strong> {{ item['Costo'] }}<br />
+                <strong>Año:</strong> {{ item['Año'] }}<br />
+                <strong>Velocidad de red:</strong> {{ item['Velocidad de Red']
+                }} Gbps<br />
+                <strong>Índice de aprobación:</strong> {{item['approval_Index']}}% 
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+     
+    </div>
+  </div>
+</div>
+    <script src="/static/slider.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </body>
 </html>

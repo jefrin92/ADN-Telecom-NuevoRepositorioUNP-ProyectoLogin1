@@ -155,7 +155,7 @@
         // Aquí puedes generar la topología de red aleatoria
         // Por ahora, simplemente devolveré un SVG de muestra
         return `
-            <svg width="800" height="600">}
+            <svg width="800" height="400">}
             <!-- Servidor -->
             <image href="https://img.icons8.com/papercut/60/server.png" x="100" y="50" width="50" height="50" class="icon"/>
             <text x="100" y="40" dy="5" class="label">Proxi Server</text>
@@ -259,44 +259,44 @@
 </div>
 
 <script>
-  function toggleChatbox() {
-      const chatbox = document.getElementById('chatbox');
-      if (chatbox.style.display === 'none') {
-          chatbox.style.display = 'block';
-      } else {
-          chatbox.style.display = 'none';
-      }
-  }
+    function toggleChatbox() {
+        const chatbox = document.getElementById('chatbox');
+        if (chatbox.style.display === 'none') {
+            chatbox.style.display = 'block';
+        } else {
+            chatbox.style.display = 'none';
+        }
+    }
 
-  function sendMessage() {
-      const userInput = document.getElementById('userInput');
-      const message = userInput.value.trim();
-      if (message === '') return;
-      displayMessage(message, 'user-message');
+    function sendMessage() {
+        const userInput = document.getElementById('userInput');
+        const message = userInput.value.trim();
+        if (message === '') return;
+        displayMessage(message, 'user-message');
 
-      fetch('/get_response', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ message: message }),
-      })
-      .then(response => response.json())
-      .then(data => {
-          displayMessage(data.response, 'bot-message');
-      });
+        fetch('/get_response', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: message }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            displayMessage(data.response, 'bot-message');
+        });
 
-      userInput.value = '';
-  }
+        userInput.value = '';
+    }
 
-  function displayMessage(message, className) {
-      const messageElement = document.createElement('div');
-      messageElement.className = `message ${className}`;
-      messageElement.textContent = message;
-      document.getElementById('messages').appendChild(messageElement);
-      document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
-  }
+    function displayMessage(message, className) {
+        const messageElement = document.createElement('div');
+        messageElement.className = `message ${className}`;
+        messageElement.textContent = message;
+        document.getElementById('messages').appendChild(messageElement);
+        document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+    }
 </script>
-
+ 
 </body>
 </html>
