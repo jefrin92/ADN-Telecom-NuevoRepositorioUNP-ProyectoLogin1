@@ -334,3 +334,46 @@ def generate_bot_response(message):
 if __name__ == '__main__':
     app.secret_key = "frank"
     app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
+
+'''
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'supersecretkey'
+
+local_timezone = pytz.timezone("America/Lima")  #Designamos esto a tu zona horaria local
+
+@app.route('/', methods=['GET', 'POST'])
+def trafico():
+    if request.method == 'POST':
+        fecha_inicio = request.form['fecha_inicio']
+        hora_inicio = request.form['hora_inicio']
+        fecha_fin = request.form['fecha_fin']
+        hora_fin = request.form['hora_fin']
+
+        try:
+            #Convertimos a objetos datetime en la zona horaria local
+            inicio = local_timezone.localize(datetime.strptime(f"{fecha_inicio} {hora_inicio}", "%Y-%m-%d %H:%M"))
+            fin = local_timezone.localize(datetime.strptime(f"{fecha_fin} {hora_fin}", "%Y-%m-%d %H:%M"))
+
+            #Verificamos las horas ingresadas
+            if inicio <= datetime.now(local_timezone):
+                error = "La hora de inicio ya ha pasado."
+                return render_template('trafico.html', error=error)
+
+            if fin <= inicio:
+                error = "La hora de fin debe ser posterior a la hora de inicio."
+                return render_template('trafico.html', error=error)
+
+            #Iniciamos la medición
+            medir_trafico(inicio, fin)
+
+            return redirect(url_for('trafico'))
+
+        except ValueError:
+            error = "Formato de fecha y hora incorrecto."
+            return render_template('trafico.html', error=error)
+
+    return render_template('trafico.html')
+
+if __name__ == '_main_':
+    app.run(debug=True)
+'''
