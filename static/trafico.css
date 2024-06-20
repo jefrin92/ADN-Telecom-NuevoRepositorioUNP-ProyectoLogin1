@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+  
+  .caja {
+  
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    margin-right: 200px;
+    
+  }
+  .titulo_user {
+      text-align: center;
+      margin-top: 200px;
+      font-family: "Segoe UI";
+      text-transform: uppercase;
+      color: #000000;
+    }
+  .table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    
+    
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  
+  }
+  
+  .table th {
+    background-color: #4caf50;
+    color: white;
+    
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+    
+  }
+  
+  .table-dark {
+    background-color: #050505;
+    color: #fff;
+  }
+  
+  /* Estilos para el logo */
+  .header__logo {
+    height: 50px;
+  }
+  .btn-success {
+    margin-left: 200px;
+  
+  }

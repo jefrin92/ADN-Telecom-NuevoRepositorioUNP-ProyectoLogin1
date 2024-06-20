@@ -1,0 +1,118 @@
+.caja {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  margin-right: 200px;
+}
+.titulo_user {
+  text-align: center;
+  margin-top: 200px;
+  font-family: "Segoe UI";
+  text-transform: uppercase;
+  color: #000000;
+}
+.table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #4caf50;
+  color: white;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table-dark {
+  background-color: #050505;
+  color: #fff;
+}
+
+/* Estilos para el logo */
+.header__logo {
+  height: 50px;
+}
+.btn-success {
+  margin-left: 200px;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f8f9fa;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+h1,
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+.card {
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.card-title {
+  text-align: center;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.table th,
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table thead th {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.card-img-top {
+  max-height: 250px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+.btn-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
