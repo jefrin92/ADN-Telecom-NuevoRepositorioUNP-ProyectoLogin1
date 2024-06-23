@@ -12,14 +12,13 @@ import numpy as np  # Import the numpy module
 import matplotlib.pyplot as plt  # Import the matplotlib module
 import os
 from uuid import uuid4
-import threading
 
 app = Flask(__name__, template_folder='templates')
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'adn_telecom'
+app.config['MYSQL_DB'] = 'adn_telecom_nuevo'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
@@ -51,10 +50,10 @@ def clean_categorical_data(df, columns):
 def add_image_field(components):
     image_urls = {
         1: "https://th.bing.com/th/id/OIP.Pz4mXqbEYL9zS-cYyZk80AHaE8?rs=1&pid=ImgDetMain",
-        2: "http://www.qftth.net/uploads/202115580/small/zte-dual-band-onu-f670l30346472761.jpg",
+        2: "https://http2.mlstatic.com/D_NQ_NP_703457-MLA31353406875_072019-O.webp",
         3: "https://th.bing.com/th/id/OIP.F0D7ICcmz6u0U4i2alqjzQHaHa?rs=1&pid=ImgDetMain",
         4: "https://th.bing.com/th/id/OIP.X7FYsfkFmdP5hsbqJIsRwQAAAA?rs=1&pid=ImgDetMain",
-        5: "https://th.bing.com/th/id/OIP.SrMdiRtk-JGEq0ALDnxylwHaGU?rs=1&pid=ImgDetMain",
+        5: "https://s.alicdn.com/@sc04/kf/U5924c2cf05b64cb9a64670126f0de427N.jpg_720x720q50.jpg",
         6: "https://th.bing.com/th/id/OIP.9jqNniLD-c1cJT5D6O0gawHaHa?rs=1&pid=ImgDetMain",
         7: "https://th.bing.com/th/id/OIP.KTsT3tv5Sr2ldEywx11qzQHaHa?rs=1&pid=ImgDetMain",
         8: "https://th.bing.com/th/id/OIP.g-ai8Qmzfbz1gy30DqPftgHaHa?rs=1&pid=ImgDetMain",
@@ -126,15 +125,15 @@ def home():
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html')
+    return render_template('admin.html', correo=session['correo'])
 
 @app.route('/usuario')
 def usuario():
-    return render_template('usuario.html')
+    return render_template('usuario.html',correo=session['correo'])
 
 @app.route('/componentes')
 def componentes():
-    return render_template('/usuario/componentes.html')
+    return render_template('/usuario/componentes.html', correo=session['correo'])
 
 @app.route('/estadisticas')
 def estadisticas():
@@ -164,7 +163,7 @@ def estadisticas():
 
     recomendaciones_global = df.to_dict(orient='records')  # Asegúrate de que tienes la variable recomendaciones_global
     
-    return render_template('/usuario/estadisticas.html', estadisticas=estadisticas_data, recomendaciones=recomendaciones_global)
+    return render_template('/usuario/estadisticas.html', correo=session['correo'], estadisticas=estadisticas_data, recomendaciones=recomendaciones_global)
 @app.route('/recomendaciones', methods=['GET', 'POST'])
 def recomendaciones():
     if request.method == 'POST':
@@ -201,7 +200,7 @@ def recomendaciones():
     # Limitar la cantidad de recomendaciones
     updated_recomend = updated_recomend[:num_recommendations]
 
-    return render_template('/usuario/recomendaciones.html', recomend=updated_recomend, num_recommendations=num_recommendations)
+    return render_template('/usuario/recomendaciones.html', correo=session['correo'], recomend=updated_recomend, num_recommendations=num_recommendations)
 
 @app.route('/resultados')
 def resultados():
@@ -214,7 +213,7 @@ def resultados():
     
     recomend2 = transform_data(recomend2)
     
-    return render_template('/usuario/resultados.html',recomend2=recomend2)
+    return render_template('/usuario/resultados.html', correo=session['correo'],recomend2=recomend2)
 
 @app.route('/acceso-login', methods=['GET', 'POST'])
 def adn_telecom():
@@ -230,11 +229,12 @@ def adn_telecom():
             session['logueado'] = True
             session['id'] = account['id']
             session['id_rol'] = account['id_rol']
+            session['correo'] = account['correo']# Guarda el correro electronico de la sesion
            
             if session['id_rol'] == 1:
-                return render_template('admin.html')   
+                return render_template('admin.html', correo=session['correo'])   
             elif session['id_rol'] == 2:
-                return render_template('usuario.html')
+                return render_template('usuario.html', correo=session['correo'])
           
         else:    
             return render_template('index.html', mensaje='Usuario o contraseña incorrecta')
@@ -262,7 +262,7 @@ def listar():
     usuarios = cur.fetchall()
     cur.close()
     
-    return render_template('listar_usuarios.html', usuarios=usuarios)
+    return render_template('listar_usuarios.html', correo=session['correo'], usuarios=usuarios)
 
 @app.route('/eliminar/<string:id>')
 def eliminar(id):
@@ -326,7 +326,7 @@ def listar_estructura():
         cur.close()
         return redirect('/listar')
     
-    return render_template('usuario/estructura.html', estructura=estructura)
+    return render_template('usuario/estructura.html',correo=session['correo'], estructura=estructura)
 
     # Ruta para obtener la respuesta del bot
 @app.route('/get_response', methods=['POST'])
@@ -343,7 +343,8 @@ def generate_bot_response(message):
     return responses.get(message, "Lo siento, no entiendo tu mensaje.")
 
 
-#luis ###################
+#luis
+
 @app.route('/trafico', methods=['GET', 'POST'])
 def trafico():
     if request.method == 'POST':
@@ -353,9 +354,11 @@ def trafico():
         hora_fin = request.form['hora_fin']
 
         try:
+            #Convertimos a objetos datetime en la zona horaria local
             inicio = local_timezone.localize(datetime.strptime(f"{fecha_inicio} {hora_inicio}", "%Y-%m-%d %H:%M"))
             fin = local_timezone.localize(datetime.strptime(f"{fecha_fin} {hora_fin}", "%Y-%m-%d %H:%M"))
 
+            #Verificamos las horas ingresadas
             if inicio <= datetime.now(local_timezone):
                 error = "La hora de inicio ya ha pasado."
                 return render_template('/usuario/trafico.html', error=error)
@@ -364,58 +367,49 @@ def trafico():
                 error = "La hora de fin debe ser posterior a la hora de inicio."
                 return render_template('/usuario/trafico.html', error=error)
 
-            plot_paths, resumen = medir_trafico(inicio, fin)
-            print(f"Plot paths: {plot_paths}")  # Agrega esta línea para depuración
-            
-            if plot_paths:
-                return redirect(url_for('mostrar_trafico', plot_paths=json.dumps(plot_paths), resumen=json.dumps(resumen)))
-            else:
-                error = "No se pudo generar la gráfica."
-                return render_template('/usuario/trafico.html', error=error)
+            #Iniciamos la medición
+            medir_trafico(inicio, fin)
+
+            return redirect(url_for('trafico'))
 
         except ValueError:
             error = "Formato de fecha y hora incorrecto."
-            return render_template('/usuario/trafico.html', error=error)
+            return render_template('/usuario/trafico.html', correo=session['correo'], error=error)
 
-    return render_template('/usuario/trafico.html')
+    return render_template('/usuario/trafico.html', correo=session['correo'])
+
 
 #Asignamos la zona horaria local
 local_timezone = pytz.timezone("America/Lima")  # Cambia esto a tu zona horaria local
 
+
+'''
 
 # Directorio temporal para guardar las gráficas
 TEMP_DIR = 'static/temp_plots'
 
 if not os.path.exists(TEMP_DIR):
     os.makedirs(TEMP_DIR)
-
-
- 
+    
+'''    
+    
 #Creamos listas vacías para almacenar datos de tráfico
 tiempos = []
 trafico_enviado = []
 trafico_recibido = []
 
-# Lista para almacenar rutas de gráficas
-plot_paths = []
 
 def save_plot():
     filename = os.path.join(TEMP_DIR, f'{uuid4().hex}.png')
     plt.savefig(filename)
     plt.close()
-    # Devolver la ruta relativa desde el directorio 'static'
-    relative_path = os.path.relpath(filename, start='static').replace('\\', '/')
-    print(f"Imagen guardada en: {relative_path}")  # Agregar impresión para depuración
-    return relative_path
+    return filename
 
 def medir_trafico(inicio, fin):
-    global plot_paths
-    plot_paths = []
-
-    # Calculamos el tiempo de medición en segundos
+    #Calculamos el tiempo de medición en segundos
     tiempo_medicion = (fin - inicio).total_seconds()
 
-    # Esperamos hasta la hora de inicio
+    #Segun la hora asignada al hacer click se espera 
     print(f"Esperando hasta la hora de inicio: {inicio.strftime('%Y-%m-%d %H:%M:%S')}")
     while datetime.now(local_timezone) < inicio:
         time.sleep(1)
@@ -425,48 +419,30 @@ def medir_trafico(inicio, fin):
 
     while tiempo_actual - tiempo_inicial <= tiempo_medicion:
         net_io = psutil.net_io_counters()
-        # Obtenemos el tráfico de red en bytes recibidos y enviados
+        #Obtenemos el tráfico de red en bytes recibidos y enviados
         bytes_enviados = net_io.bytes_sent
         bytes_recibidos = net_io.bytes_recv
 
-        # Convertimos a megabytes
+        #Convertimos a megabytes
         mb_enviados = bytes_enviados / (1024 * 1024)
         mb_recibidos = bytes_recibidos / (1024 * 1024)
 
-        # Almacenamos datos para graficar en vivo
-        tiempos.append(tiempo_actual - tiempo_inicial)  # Registrar tiempo transcurrido desde el inicio
+        #Almacenamos datos para graficar en vivo
+        tiempos.append(tiempo_actual - tiempo_inicial)  #Registrar tiempo transcurrido desde el inicio
         trafico_enviado.append(mb_enviados + np.random.uniform(-0.5, 0.5))  # Simular fluctuaciones aleatorias
         trafico_recibido.append(mb_recibidos + np.random.uniform(-0.5, 0.5))  # Simular fluctuaciones aleatorias
 
-        # Actualizamos gráfica en vivo y guardamos la ruta
-        plot_path = actualizar_grafica_en_vivo(tiempos, trafico_enviado, trafico_recibido)
-        plot_paths.append(plot_path)
-        print(f"Ruta de la gráfica actualizada: {plot_path}")  # Depuración
+        #Actualizamos gráfica en vivo
+        actualizar_grafica_en_vivo()
 
-        time.sleep(10)  # Esperamos 10 segundos antes de la siguiente medición
+        time.sleep(10)  #Esperamos 10 segundos antes de la siguiente medición
         tiempo_actual = time.time()
 
-    # Mostramos resultados finales y guardamos la ruta de la gráfica final
-    final_plot_path = mostrar_resultados_finales(tiempos, trafico_enviado, trafico_recibido)
-    plot_paths.append(final_plot_path)
-    print(f"Ruta de la gráfica final: {final_plot_path}")  # Depuración
+    #Mostramos resultados finales
+    mostrar_resultados_finales()
 
-    # Finalmente mostramos cantidad total de megabytes enviados y recibidos
-    total_enviado = trafico_enviado[-1]
-    total_recibido = trafico_recibido[-1]
-    tiempo_total = tiempos[-1]
-
-    resumen = {
-        "total_enviado": f"{total_enviado:.2f} MB",
-        "total_recibido": f"{total_recibido:.2f} MB",
-        "tiempo_total": f"{tiempo_total:.2f} segundos"
-    }
-    print(f"Resumen: {resumen}")  # Depuración
-
-    return plot_paths, resumen
-
-def actualizar_grafica_en_vivo(tiempos, trafico_enviado, trafico_recibido):
-    # Graficamos tráfico enviado y recibido en vivo
+def actualizar_grafica_en_vivo():
+    #Graficamos tráfico enviado y recibido en vivo
     plt.figure(figsize=(10, 6))
     plt.plot(tiempos, trafico_enviado, label='Enviado')
     plt.plot(tiempos, trafico_recibido, label='Recibido')
@@ -477,10 +453,10 @@ def actualizar_grafica_en_vivo(tiempos, trafico_enviado, trafico_recibido):
     plt.grid(True)
     plt.pause(0.01)  # Pausa breve para actualizar la gráfica
     
-    return save_plot()
+   # return save_plot()
 
-def mostrar_resultados_finales(tiempos, trafico_enviado, trafico_recibido):
-    # Graficamos tráfico enviado y recibido final en una ventana aparte
+def mostrar_resultados_finales():
+    #Graficamos tráfico enviado y recibido final en una ventana aparte
     plt.figure(figsize=(10, 6))
     plt.plot(tiempos, trafico_enviado, label='Enviado')
     plt.plot(tiempos, trafico_recibido, label='Recibido')
@@ -489,11 +465,9 @@ def mostrar_resultados_finales(tiempos, trafico_enviado, trafico_recibido):
     plt.ylabel('Tráfico (MB)')
     plt.legend()
     plt.grid(True)
+    plt.show()
 
-    # Guardamos la gráfica final
-    final_plot_path = save_plot()
-
-    # Finalmente mostramos cantidad total de megabytes enviados y recibidos
+    #Finalmente mostramos cantidad total de megabytes enviados y recibidos
     total_enviado = trafico_enviado[-1]
     total_recibido = trafico_recibido[-1]
     tiempo_total = tiempos[-1]
@@ -501,49 +475,18 @@ def mostrar_resultados_finales(tiempos, trafico_enviado, trafico_recibido):
     print(f"Total enviado: {total_enviado:.2f} MB")
     print(f"Total recibido: {total_recibido:.2f} MB")
     print(f"Tiempo total de medición: {tiempo_total:.2f} segundos")
-    
-    return final_plot_path
-
+'''
+#mostrar trafico temporal
 @app.route('/mostrar_trafico')
 def mostrar_trafico():
-    plot_paths = request.args.get('plot_paths')
-    resumen = request.args.get('resumen')
+    plot_path = request.args.get('plot_path')
+    print(f"Plot path en mostrar_trafico: {plot_path}")  # Agrega esta línea para depuración
     
-    if not plot_paths or not resumen:
+    if not plot_path:
         return "No se pudo cargar la gráfica.", 404
 
-    plot_paths = json.loads(plot_paths)
-    resumen = json.loads(resumen)
-
-    subtitles = [f"Imagen {i + 1}" for i in range(len(plot_paths))]
-
-    response = render_template('/usuario/mostrar_trafico.html', plot_paths=plot_paths, resumen=resumen, subtitles=subtitles, enumerate=enumerate)
-
-    eliminar_archivos(plot_paths)
-
-    return response
-#apr alimpiar  el buffer de plot
-
-def eliminar_archivos(plot_paths):
-    def delete_files():
-        time.sleep(5)  # Esperar 5 segundos antes de eliminar los archivos
-        for plot_path in plot_paths:
-            try:
-                # Construir la ruta absoluta desde el directorio 'static'
-                absolute_path = os.path.join('static', plot_path)
-                print(f"Intentando eliminar: {absolute_path}")  # Agregar impresión para depuración
-                if os.path.exists(absolute_path):
-                    os.remove(absolute_path)
-                    print(f"Eliminado: {absolute_path}")  # Confirmar eliminación
-                else:
-                    print(f"El archivo {absolute_path} no existe")
-            except Exception as e:
-                print(f"Error al eliminar el archivo {absolute_path}: {e}")
-    
-    thread = threading.Thread(target=delete_files)
-    thread.start()
-
-
+    return render_template('/usuario/mostrar_trafico.html', plot_path=plot_path)
+'''
 
 #main ejecucion
 if __name__ == '__main__':

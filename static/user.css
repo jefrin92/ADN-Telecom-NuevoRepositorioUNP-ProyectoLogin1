@@ -25,3 +25,25 @@ body {
   display: block; /* Asegura que la imagen se trate como bloque */
   margin: 20px auto; /* Margen superior e inferior de 20px y centrado horizontalmente */
 }
+/* Estilos para el encabezado */
+.header {
+  background-color: rgba(5, 112, 155, 0.507);
+  padding: 20px;
+  text-align: center;
+}
+/* Estilos para la navegación */
+.header__nav {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.header__nav-item {
+  list-style: none;
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.header__nav-item a {
+  color: #fff;
+  text-decoration: none;
+}

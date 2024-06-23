@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-06-2024 a las 10:24:38
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 23-06-2024 a las 20:50:31
+-- Versión del servidor: 10.4.25-MariaDB
+-- Versión de PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `adn_telecom`
+-- Base de datos: `adn_telecom_nuevo`
 --
 
 -- --------------------------------------------------------
@@ -38,7 +38,7 @@ CREATE TABLE `componentes` (
   `Estructura_Red` int(11) NOT NULL,
   `Nro_Puertos` int(11) NOT NULL,
   `approval_Index` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `componentes`
@@ -46,10 +46,10 @@ CREATE TABLE `componentes` (
 
 INSERT INTO `componentes` (`ID`, `EQUIPO`, `MODELO`, `MARCA`, `COSTO`, `Velocidad_Red`, `Year`, `Estructura_Red`, `Nro_Puertos`, `approval_Index`) VALUES
 (1, 'ONU\r\n', 'ZXHNF660\r\n', 'ZTE\r\n', 200, 1, 2018, 0, 10, 7.0611),
-(2, 'ONU\r\n', 'ZTE-F670L\r\n', 'ZTE\r\n', 150, 100, 2020, 0, 20, 8.48953),
+(2, 'ROUTERBOARD\r\n', 'Hex-RB760IGS\r\n', 'MIKROTIK\r\n', 120, 1000, 2018, 0, 6, 8.48953),
 (3, 'ONU\r\n', 'ZTE-F668\r\n', 'ZTE\r\n', 100, 500, 2015, 0, 3, 6.27206),
 (4, 'ONU', 'ZTE-F660V6.0', 'ZTE', 120, 1, 2019, 0, 1, 7.21401),
-(5, 'ONU', 'ZTE-F660V5.2', 'ZTE', 22, 1000, 2021, 0, 4, 8.46096),
+(5, 'ROUTERBOARD', 'RB951G-2HnD', 'MIKROTIK', 100, 1000, 2019, 0, 5, 8.46096),
 (6, 'ONU', 'ZTE-F643', 'ZTE', 20, 100, 2018, 0, 5, 5.71721),
 (7, 'ONU', 'ZTE-F660', 'ZTE', 35, 1000, 2019, 0, 5, 6.37564),
 (8, 'ONU', 'ZTE-F627', 'ZTE', 38, 1000, 2020, 0, 4, 6.35267),
@@ -76,13 +76,28 @@ INSERT INTO `componentes` (`ID`, `EQUIPO`, `MODELO`, `MARCA`, `COSTO`, `Velocida
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `estructura`
+--
+
+CREATE TABLE `estructura` (
+  `id` int(30) NOT NULL,
+  `equipo` varchar(50) NOT NULL,
+  `modelo` varchar(50) NOT NULL,
+  `marca` varchar(50) NOT NULL,
+  `caracteristica` varchar(60) NOT NULL,
+  `costo` int(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `roles`
 --
 
 CREATE TABLE `roles` (
   `id_rol` int(11) NOT NULL,
   `descripcion` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -104,7 +119,7 @@ CREATE TABLE `usuarios` (
   `correo` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `id_rol` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -116,7 +131,7 @@ INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `password`, `id_rol`) VALUES
 (10, 'paolo', 'paolo@gmail.com', '123', 2),
 (12, 'sonia', 'sonia@gmail.com', '12345', 2),
 (13, 'andre', 'andre@gmail.com', '123', 2),
-(14, 'jefrin', 'jefrin@upn.pe', '12345', 2);
+(14, 'jefrin', 'jefrin@upn.pe', '123', 2);
 
 --
 -- Índices para tablas volcadas
@@ -127,6 +142,12 @@ INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `password`, `id_rol`) VALUES
 --
 ALTER TABLE `componentes`
   ADD PRIMARY KEY (`ID`);
+
+--
+-- Indices de la tabla `estructura`
+--
+ALTER TABLE `estructura`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `roles`
@@ -150,6 +171,12 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `componentes`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT de la tabla `estructura`
+--
+ALTER TABLE `estructura`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
