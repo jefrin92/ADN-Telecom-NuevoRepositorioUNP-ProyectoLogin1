@@ -12,6 +12,7 @@ import numpy as np  # Import the numpy module
 import matplotlib.pyplot as plt  # Import the matplotlib module
 import os
 from uuid import uuid4
+import threading
 
 app = Flask(__name__, template_folder='templates')
 
@@ -59,7 +60,7 @@ def add_image_field(components):
         8: "https://th.bing.com/th/id/OIP.g-ai8Qmzfbz1gy30DqPftgHaHa?rs=1&pid=ImgDetMain",
         9: "https://th.bing.com/th/id/OIP.fkZq0sp71cxtuOfxz4rrsgHaHa?rs=1&pid=ImgDetMain",
         10: "https://th.bing.com/th/id/OIP.BwivpHBDhkgmKd4XQauJHQHaHa?rs=1&pid=ImgDetMain",
-        11: "https://th.bing.com/th/id/R.55895c3a2777e5688e7bfb5898211b41?rik=t2tnnU%2fmy4Fn5g&riu=http%3a%2f%2fgponsolution.com%2fwp-content%2fuploads%2f2016%2f03%2fZTE-C320-GPON-OLT-Specification.jpg&ehk=a8JXRHAhajQlBCMNECp9Y%2fAM%2fPSX81bQQRKw6lkBbwY%3d&risl=&pid=ImgRaw&r=0",
+        11: "https://americadigital.com.gt/wp-content/uploads/2022/02/EO145NZTEZXA10C320a.jpg",
         12: "https://www.henanliyuan.com/Uploads/5d9176ab20d872779.jpg",
         13: "https://http2.mlstatic.com/D_NQ_NP_2X_730541-MLB44905216280_022021-F.jpg",
         14: "https://cdn.myshoptet.com/usr/www.ponplanet.eu/user/shop/big/579_v1600gs-o32.jpg?65361b70",
@@ -68,7 +69,7 @@ def add_image_field(components):
         17: "https://www.comx-computers.co.za/i/mikrotik/52907_IMG1.jpg",
         18: "https://www.wisp.pl/galerie/m/mikrotik-cloud-core-router-cc_12697.jpg",
         19: "https://m.media-amazon.com/images/I/71Qp4cPJNIL._AC_SL1500_.jpg",
-        20: "https://th.bing.com/th/id/R.d235b555a51be21b18a891bdf5a596bc?rik=8oWkqeMTR8b1kw&riu=http%3a%2f%2f2.bp.blogspot.com%2f-FyvJAjN_eSE%2fVI6-poG_XQI%2fAAAAAAAABe0%2fugzRXU_rqtI%2fs1600%2frb951g-2hnd-2.jpg&ehk=3wsR2nuJbAPPFaFAQtqaVauA2EZB52uwLx4DeGVnbi8%3d&risl=&pid=ImgRaw&r=0",
+        20: "https://www.aibitech.com/3405-large_default/router-routerboard-mikrotik-rb951ui-2hnd-wireless-1000mw-24ghz-80211bgn-5-ethernet-1usb-l4.jpg",
         21: "https://i5.walmartimages.com/asr/c5ed70d8-aac4-4d60-8635-b631c8cf2a75.22c9c4934f589681eb65695ba5115cda.jpeg",
         22: "https://http2.mlstatic.com/D_NQ_NP_2X_875988-MLA40175220158_122019-F.jpg",
         23: "https://www.media-rdc.com/medias/7f8c8641686c3c249d8455738091d3b3/switch-ethernet-dlink-dgs-105-dlink.jpg?cimgnr=CbzVv",
@@ -79,9 +80,11 @@ def add_image_field(components):
         # Agrega más ID y URLs según sea necesario
     }
     for component in components:
-        component_id = int(component["iD"])
+        component_id = int(component.get("iD", -1))  # Utiliza un valor predeterminado en caso de que "ID" no esté presente
         component["Imagen"] = image_urls.get(component_id, "https://example.com/default.jpg")  # Usa una imagen por defecto si no se encuentra el ID
     return components
+
+
 def update_component_data(components, df):
     updated_components = []
     for component in components:
@@ -99,6 +102,8 @@ def update_component_data(components, df):
                 component['Modelo'] = db_row['MODELO']
                 component['Marca'] = db_row['MARCA']
                 component['Costo'] = f"${db_row['COSTO']:,.2f}"  # Formatear costo con símbolo de moneda
+                component['Velocidad_Red'] = db_row['Velocidad_Red']
+                component['Año'] = db_row['Year']  
                 component['approval_Index'] = round((db_row['approval_Index'] / 10) * 100, 2)  # Convert to percentage
                 updated_components.append(component)
             else:
@@ -125,7 +130,7 @@ def home():
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html', correo=session['correo'])
+    return render_template('admin.html',correo=session['correo'])
 
 @app.route('/usuario')
 def usuario():
@@ -133,37 +138,71 @@ def usuario():
 
 @app.route('/componentes')
 def componentes():
-    return render_template('/usuario/componentes.html', correo=session['correo'])
+    # Aquí se obtiene y se muestran los componentes de la base de datos
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM componentes")
+    data = cur.fetchall()
+    cur.close()
+    return render_template('/usuario/componentes.html',correo=session['correo'], componentes=data)
 
-@app.route('/estadisticas')
-def estadisticas():
-    # Obtener los datos de la base de datos
-    df = get_components_from_db()
-    
-    # Calcular porcentajes de aprobación
-    df['approval_Index'] = df['approval_Index'].apply(lambda x: round((x / 10) * 100, 2))
-    
-    # Ordenar y seleccionar las 10 recomendaciones más cercanas al 100%
-    top_recommendations = df.sort_values(by='approval_Index', ascending=False).head(10)
-    
-    # Calcular estadísticas, por ejemplo, contar la cantidad de cada tipo de equipo
-    equipo_counts = df['EQUIPO'].value_counts().reset_index()
-    equipo_counts.columns = ['Equipo', 'Cantidad']
 
-    # Definir el número de recomendaciones
-    num_recommendations = min(len(df), 10)  # Asegurar que no exceda el máximo de 10
-    total_components = 27  # Total de componentes
+@app.route('/agregar_componente', methods=['GET', 'POST'])
+def agregar_componente():
+    if request.method == 'POST':
+        equipo = request.form['EQUIPO']
+        modelo = request.form['MODELO']
+        marca = request.form['MARCA']
+        costo = request.form['COSTO']
+        velocidad_red = request.form['Velocidad_Red']
+        year = request.form['Year']
+        estructura_red = request.form['Estructura_Red']
+        nro_puertos = request.form['Nro_Puertos']
+        descripcion = request.form['descripcion']
+        imagen = request.form['Imagen']
+        create_component(mysql, equipo, modelo, marca, costo, velocidad_red, year, estructura_red, nro_puertos, descripcion, imagen)
+        return redirect(url_for('componentes'))
+    return render_template('/usuario/agregar_componente.html',correo=session['correo'])
 
-    estadisticas_data = {
-        "equipo_counts": equipo_counts.to_dict(orient='records'),
-        "num_recommendations": num_recommendations,
-        "total_components": total_components,
-        "approval_indices": top_recommendations[['MODELO', 'approval_Index']].to_dict(orient='records')
-    }
+def create_component(mysql, equipo, modelo, marca, costo, velocidad_red, year, estructura_red, nro_puertos, descripcion, imagen):
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        INSERT INTO componentes (EQUIPO, MODELO, MARCA, COSTO, Velocidad_Red, Year, Estructura_Red, Nro_Puertos, descripcion, Imagen)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """, (equipo, modelo, marca, costo, velocidad_red, year, estructura_red, nro_puertos, descripcion, imagen))
+    mysql.connection.commit()
+    cur.close()
+@app.route('/editar_componente/<int:id>', methods=['GET', 'POST'])
+def editar_componente(id):
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    if request.method == 'POST':
+        equipo = request.form['EQUIPO']
+        modelo = request.form['MODELO']
+        marca = request.form['MARCA']
+        costo = request.form['COSTO']
+        velocidad_red = request.form['Velocidad_Red']
+        year = request.form['Year']
+        estructura_red = request.form['Estructura_Red']
+        nro_puertos = request.form['Nro_Puertos']
+        
+        descripcion = request.form['descripcion']
+        imagen = request.form['Imagen']
 
-    recomendaciones_global = df.to_dict(orient='records')  # Asegúrate de que tienes la variable recomendaciones_global
-    
-    return render_template('/usuario/estadisticas.html', correo=session['correo'], estadisticas=estadisticas_data, recomendaciones=recomendaciones_global)
+        cur.execute("""
+            UPDATE componentes
+            SET EQUIPO=%s, MODELO=%s, MARCA=%s, COSTO=%s, Velocidad_Red=%s, Year=%s, Estructura_Red=%s, Nro_Puertos=%s, descripcion=%s, Imagen=%s
+            WHERE ID=%s
+        """, (equipo, modelo, marca, costo, velocidad_red, year, estructura_red, nro_puertos, descripcion, imagen, id))
+        mysql.connection.commit()
+        cur.close()
+        return redirect(url_for('componentes'))
+    else:
+        cur.execute("SELECT * FROM componentes WHERE ID = %s", (id,))
+        componente = cur.fetchone()
+        cur.close()
+        return render_template('usuario/editar_componente.html', componente=componente)
+
+
+
 @app.route('/recomendaciones', methods=['GET', 'POST'])
 def recomendaciones():
     if request.method == 'POST':
@@ -200,20 +239,69 @@ def recomendaciones():
     # Limitar la cantidad de recomendaciones
     updated_recomend = updated_recomend[:num_recommendations]
 
-    return render_template('/usuario/recomendaciones.html', correo=session['correo'], recomend=updated_recomend, num_recommendations=num_recommendations)
+    session['approval_indices'] = [
+        {'MODELO': rec['Modelo'], 'approval_Index': rec['approval_Index']}
+        for rec in updated_recomend
+    ]
+
+    return render_template('/usuario/recomendaciones.html',correo=session['correo'], recomend=updated_recomend, num_recommendations=num_recommendations)
+
+@app.route('/estadisticas')
+def estadisticas():
+    # Obtener los datos de la base de datos
+    df = get_components_from_db()
+    
+    # Calcular porcentajes de aprobación
+    df['approval_Index'] = df['approval_Index'].apply(lambda x: round((x / 10) * 100, 2))
+    
+    # Obtener las recomendaciones almacenadas en la sesión
+    approval_indices = session.get('approval_indices', [])
+
+    # Calcular estadísticas, por ejemplo, contar la cantidad de cada tipo de equipo
+    equipo_counts = df['EQUIPO'].value_counts().reset_index()
+    equipo_counts.columns = ['Equipo', 'Cantidad']
+
+    # Definir el número de recomendaciones
+    num_recommendations = session.get('num_recommendations', min(len(df), 10))  # Recuperar el valor de la sesión o usar el valor por defecto
+    total_components = 27  # Total de componentes
+
+    # Convertir tipos para serializar correctamente
+    equipo_counts = equipo_counts.astype({'Equipo': str, 'Cantidad': int})
+
+    estadisticas_data = {
+        "equipo_counts": equipo_counts.to_dict(orient='records'),
+        "num_recommendations": int(num_recommendations),
+        "total_components": int(total_components),
+        "approval_indices": approval_indices
+    }
+
+    recomendaciones_global = df.to_dict(orient='records')  # Asegúrate de que tienes la variable recomendaciones_global
+    
+    return render_template('/usuario/estadisticas.html',correo=session['correo'], estadisticas=estadisticas_data, recomendaciones=recomendaciones_global)
 
 @app.route('/resultados')
 def resultados():
-
     with open('recomendaciones.json', 'r') as file:
-            recomend_json = file.read()
+        recomend_json = file.read()
 
-# Convertir la cadena JSON a una lista de Python
+    # Convertir la cadena JSON a una lista de Python
     recomend2 = json.loads(recomend_json)
     
     recomend2 = transform_data(recomend2)
+
+    # Agregar campo de imagen
+    recomend2 = add_image_field(recomend2)
+
+    # Obtener los datos de la base de datos
+    df = get_components_from_db()
+
+    # Actualizar los datos de los componentes
+    updated_recomend2 = update_component_data(recomend2, df)
     
-    return render_template('/usuario/resultados.html', correo=session['correo'],recomend2=recomend2)
+    # Ordenar los resultados por índice de aprobación en orden descendente
+    updated_recomend2 = sorted(updated_recomend2, key=lambda x: x['approval_Index'], reverse=True)
+    
+    return render_template('/usuario/resultados.html',correo=session['correo'], recomend2=updated_recomend2)
 
 @app.route('/acceso-login', methods=['GET', 'POST'])
 def adn_telecom():
@@ -245,16 +333,19 @@ def registro():
 
 @app.route('/crear-registro', methods=['GET', 'POST'])
 def crear_registro():
-    nombre = request.form['txtNombre']
-    correo = request.form['txtCorreo']
-    password = request.form['txtPassword']
-    
-    cur = mysql.connection.cursor()
-    cur.execute('INSERT INTO usuarios(nombre, correo, password, id_rol) VALUES(%s,%s,%s,2)', (nombre, correo, password))
-    mysql.connection.commit()
-    
-    return render_template('index.html', mensaje2='Registro exitoso')
-
+    if request.method == 'POST':
+        nombre = request.form['txtNombre']
+        correo = request.form['txtCorreo']
+        password = request.form['txtPassword']
+        
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO usuarios(nombre, correo, password, id_rol) VALUES(%s,%s,%s,2)', (nombre, correo, password))
+        mysql.connection.commit()
+        cur.close()
+        
+        mensaje2 = 'Registro exitoso'
+        return render_template('index.html', mensaje2=mensaje2)
+    return render_template('registro.html')
 @app.route('/listar', methods=['GET', 'POST'])
 def listar():
     cur = mysql.connection.cursor()
@@ -262,7 +353,7 @@ def listar():
     usuarios = cur.fetchall()
     cur.close()
     
-    return render_template('listar_usuarios.html', correo=session['correo'], usuarios=usuarios)
+    return render_template('listar_usuarios.html',correo=session['correo'], usuarios=usuarios)
 
 @app.route('/eliminar/<string:id>')
 def eliminar(id):
@@ -305,7 +396,7 @@ def modificar(id):
         cur.close()
         return redirect('/listar')
     
-    return render_template('editar_usuarios.html', usuarios=usuarios)
+    return render_template('editar_usuarios.html',correo=session['correo'], usuarios=usuarios)
 
 @app.route('/estructura', methods=['GET', 'POST'])
 def listar_estructura():
@@ -343,8 +434,7 @@ def generate_bot_response(message):
     return responses.get(message, "Lo siento, no entiendo tu mensaje.")
 
 
-#luis
-
+#luis ###################
 @app.route('/trafico', methods=['GET', 'POST'])
 def trafico():
     if request.method == 'POST':
@@ -354,11 +444,9 @@ def trafico():
         hora_fin = request.form['hora_fin']
 
         try:
-            #Convertimos a objetos datetime en la zona horaria local
             inicio = local_timezone.localize(datetime.strptime(f"{fecha_inicio} {hora_inicio}", "%Y-%m-%d %H:%M"))
             fin = local_timezone.localize(datetime.strptime(f"{fecha_fin} {hora_fin}", "%Y-%m-%d %H:%M"))
 
-            #Verificamos las horas ingresadas
             if inicio <= datetime.now(local_timezone):
                 error = "La hora de inicio ya ha pasado."
                 return render_template('/usuario/trafico.html', error=error)
@@ -367,49 +455,53 @@ def trafico():
                 error = "La hora de fin debe ser posterior a la hora de inicio."
                 return render_template('/usuario/trafico.html', error=error)
 
-            #Iniciamos la medición
-            medir_trafico(inicio, fin)
-
-            return redirect(url_for('trafico'))
-
+            plot_paths, resumen = medir_trafico(inicio, fin)
+            session['plot_paths'] = plot_paths  # Almacenar las rutas en la sesión
+            session['resumen'] = resumen  # Almacenar el resumen en la sesión
+            return redirect(url_for('mostrar_trafico'))
         except ValueError:
             error = "Formato de fecha y hora incorrecto."
-            return render_template('/usuario/trafico.html', correo=session['correo'], error=error)
+            return render_template('/usuario/trafico.html', error=error)
 
-    return render_template('/usuario/trafico.html', correo=session['correo'])
-
+    return render_template('/usuario/trafico.html',correo=session['correo'])
 
 #Asignamos la zona horaria local
 local_timezone = pytz.timezone("America/Lima")  # Cambia esto a tu zona horaria local
 
-
-'''
 
 # Directorio temporal para guardar las gráficas
 TEMP_DIR = 'static/temp_plots'
 
 if not os.path.exists(TEMP_DIR):
     os.makedirs(TEMP_DIR)
-    
-'''    
-    
+
+
+ 
 #Creamos listas vacías para almacenar datos de tráfico
 tiempos = []
 trafico_enviado = []
 trafico_recibido = []
 
+# Lista para almacenar rutas de gráficas
+plot_paths = []
 
 def save_plot():
     filename = os.path.join(TEMP_DIR, f'{uuid4().hex}.png')
     plt.savefig(filename)
     plt.close()
-    return filename
+    # Devolver la ruta relativa desde el directorio 'static'
+    relative_path = os.path.relpath(filename, start='static').replace('\\', '/')
+    print(f"Imagen guardada en: {relative_path}")  # Agregar impresión para depuración
+    return relative_path
 
 def medir_trafico(inicio, fin):
-    #Calculamos el tiempo de medición en segundos
+    global plot_paths
+    plot_paths = []
+
+    # Calculamos el tiempo de medición en segundos
     tiempo_medicion = (fin - inicio).total_seconds()
 
-    #Segun la hora asignada al hacer click se espera 
+    # Esperamos hasta la hora de inicio
     print(f"Esperando hasta la hora de inicio: {inicio.strftime('%Y-%m-%d %H:%M:%S')}")
     while datetime.now(local_timezone) < inicio:
         time.sleep(1)
@@ -419,30 +511,48 @@ def medir_trafico(inicio, fin):
 
     while tiempo_actual - tiempo_inicial <= tiempo_medicion:
         net_io = psutil.net_io_counters()
-        #Obtenemos el tráfico de red en bytes recibidos y enviados
+        # Obtenemos el tráfico de red en bytes recibidos y enviados
         bytes_enviados = net_io.bytes_sent
         bytes_recibidos = net_io.bytes_recv
 
-        #Convertimos a megabytes
+        # Convertimos a megabytes
         mb_enviados = bytes_enviados / (1024 * 1024)
         mb_recibidos = bytes_recibidos / (1024 * 1024)
 
-        #Almacenamos datos para graficar en vivo
-        tiempos.append(tiempo_actual - tiempo_inicial)  #Registrar tiempo transcurrido desde el inicio
+        # Almacenamos datos para graficar en vivo
+        tiempos.append(tiempo_actual - tiempo_inicial)  # Registrar tiempo transcurrido desde el inicio
         trafico_enviado.append(mb_enviados + np.random.uniform(-0.5, 0.5))  # Simular fluctuaciones aleatorias
         trafico_recibido.append(mb_recibidos + np.random.uniform(-0.5, 0.5))  # Simular fluctuaciones aleatorias
 
-        #Actualizamos gráfica en vivo
-        actualizar_grafica_en_vivo()
+        # Actualizamos gráfica en vivo y guardamos la ruta
+        plot_path = actualizar_grafica_en_vivo(tiempos, trafico_enviado, trafico_recibido)
+        plot_paths.append(plot_path)
+        print(f"Ruta de la gráfica actualizada: {plot_path}")  # Depuración
 
-        time.sleep(10)  #Esperamos 10 segundos antes de la siguiente medición
+        time.sleep(10)  # Esperamos 10 segundos antes de la siguiente medición
         tiempo_actual = time.time()
 
-    #Mostramos resultados finales
-    mostrar_resultados_finales()
+    # Mostramos resultados finales y guardamos la ruta de la gráfica final
+    final_plot_path = mostrar_resultados_finales(tiempos, trafico_enviado, trafico_recibido)
+    plot_paths.append(final_plot_path)
+    print(f"Ruta de la gráfica final: {final_plot_path}")  # Depuración
 
-def actualizar_grafica_en_vivo():
-    #Graficamos tráfico enviado y recibido en vivo
+    # Finalmente mostramos cantidad total de megabytes enviados y recibidos
+    total_enviado = trafico_enviado[-1]
+    total_recibido = trafico_recibido[-1]
+    tiempo_total = tiempos[-1]
+
+    resumen = {
+        "total_enviado": f"{total_enviado:.2f} MB",
+        "total_recibido": f"{total_recibido:.2f} MB",
+        "tiempo_total": f"{tiempo_total:.2f} segundos"
+    }
+    print(f"Resumen: {resumen}")  # Depuración
+
+    return plot_paths, resumen
+
+def actualizar_grafica_en_vivo(tiempos, trafico_enviado, trafico_recibido):
+    # Graficamos tráfico enviado y recibido en vivo
     plt.figure(figsize=(10, 6))
     plt.plot(tiempos, trafico_enviado, label='Enviado')
     plt.plot(tiempos, trafico_recibido, label='Recibido')
@@ -453,10 +563,10 @@ def actualizar_grafica_en_vivo():
     plt.grid(True)
     plt.pause(0.01)  # Pausa breve para actualizar la gráfica
     
-   # return save_plot()
+    return save_plot()
 
-def mostrar_resultados_finales():
-    #Graficamos tráfico enviado y recibido final en una ventana aparte
+def mostrar_resultados_finales(tiempos, trafico_enviado, trafico_recibido):
+    # Graficamos tráfico enviado y recibido final en una ventana aparte
     plt.figure(figsize=(10, 6))
     plt.plot(tiempos, trafico_enviado, label='Enviado')
     plt.plot(tiempos, trafico_recibido, label='Recibido')
@@ -465,9 +575,11 @@ def mostrar_resultados_finales():
     plt.ylabel('Tráfico (MB)')
     plt.legend()
     plt.grid(True)
-    plt.show()
 
-    #Finalmente mostramos cantidad total de megabytes enviados y recibidos
+    # Guardamos la gráfica final
+    final_plot_path = save_plot()
+
+    # Finalmente mostramos cantidad total de megabytes enviados y recibidos
     total_enviado = trafico_enviado[-1]
     total_recibido = trafico_recibido[-1]
     tiempo_total = tiempos[-1]
@@ -475,18 +587,44 @@ def mostrar_resultados_finales():
     print(f"Total enviado: {total_enviado:.2f} MB")
     print(f"Total recibido: {total_recibido:.2f} MB")
     print(f"Tiempo total de medición: {tiempo_total:.2f} segundos")
-'''
-#mostrar trafico temporal
+    
+    return final_plot_path
+
 @app.route('/mostrar_trafico')
 def mostrar_trafico():
-    plot_path = request.args.get('plot_path')
-    print(f"Plot path en mostrar_trafico: {plot_path}")  # Agrega esta línea para depuración
+    plot_paths = session.get('plot_paths')
+    resumen = session.get('resumen')
     
-    if not plot_path:
+    if not plot_paths or not resumen:
         return "No se pudo cargar la gráfica.", 404
 
-    return render_template('/usuario/mostrar_trafico.html', plot_path=plot_path)
-'''
+    subtitles = [f"Imagen {i + 1}" for i in range(len(plot_paths))]
+
+    return render_template('/usuario/mostrar_trafico.html',correo=session['correo'], plot_paths=plot_paths, resumen=resumen, subtitles=subtitles, enumerate=enumerate, json=json)
+#apr alimpiar  el buffer de plot
+
+@app.route('/limpiar_archivos_y_volver')
+def limpiar_archivos_y_volver():
+    plot_paths = session.get('plot_paths')
+    if plot_paths:
+        eliminar_archivos(plot_paths)
+    session.pop('plot_paths', None)  # Limpiar la sesión
+    session.pop('resumen', None)  # Limpiar la sesión
+    return redirect(url_for('trafico'))
+
+def eliminar_archivos(plot_paths):
+    for plot_path in plot_paths:
+        try:
+            # Construir la ruta absoluta desde el directorio 'static'
+            absolute_path = os.path.join('static', plot_path)
+            print(f"Intentando eliminar: {absolute_path}")  # Para depuración
+            if os.path.exists(absolute_path):
+                os.remove(absolute_path)
+                print(f"Eliminado: {absolute_path}")
+            else:
+                print(f"El archivo {absolute_path} no existe")
+        except Exception as e:
+            print(f"Error al eliminar el archivo {absolute_path}: {e}")
 
 #main ejecucion
 if __name__ == '__main__':

@@ -1,0 +1,85 @@
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    margin: 0 auto;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+form div {
+    margin-bottom: 15px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+input[type="text"], textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button {
+    width: 85%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;   
+}
+button.btn-success {
+    background-color: #28a745;
+}
+button.btn-success:hover {
+    background-color: #218838;
+
+}
+button.btn-secondary {
+    background-color: #6c757d;
+    
+}
+button.btn-secondary:hover {
+    background-color: #5a6268;
+    
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-group button {
+    width: 48%;
+}
+
+.caja {
+    width: 540px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #e4b2b2;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+    margin-top: 100px;
+    border-radius: 12px;
+}
+.titulo_user {
+    text-align: center;
+    margin-top: 0px;
+    font-family: "Segoe UI";
+    text-transform: uppercase;
+    color: #000000;
+}
+/* Estilos para el logo */
+.header__logo {
+    height: 50px;
+}
+.btn-secondary{
+    width: -250px;
+}

@@ -52,39 +52,39 @@
     </nav>
       </div>
 
-      <div>
-        <h1 class="titulo_tabla">Resultados</h1>
-        <ul>
-          <div class="caja">
-            <table class="table table-striped">
-              <thead class="table-dark">
-                  <tr>
-                      <th>Componente recomendado</th>
-                      <th>ID</th>
-                      <th>Equipo</th>
-                      <th>Modelo</th>
-                      <th>Marca</th>
-                      <th>Año</th>                   
-                      <th>Índice de aprobación</th>
-                  </tr>
-              </thead>
-              <tbody>
-                {% for idea in recomend2 %}
-                <tr>
-                  <td>{{ idea['Componente recomendado'] }}</td>
-                  <td>{{ idea['iD'] }}</td>
-                  <td>{{ idea['Equipo'] }}</td>
-                  <td>{{ idea['Modelo'] }}</td>
-                  <td>{{ idea['Marca'] }}</td>
-                  <td>{{ idea['Año'] }}</td>
-                  <td>{{ idea['approval_Index'] }}</td> 
-              </tr>
+      <div class="container mt-5">
+        <h1 class="mb-4">Resultados</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">ID</th>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Equipo</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Costo</th>
+                    <th scope="col">Velocidad de Red</th>
+                    <th scope="col">Año</th>
+                    <th scope="col">Índice de aprobación</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recomend in recomend2 %}
+                <tr class="table table-striped">
+                    <td>{{ recomend.iD }}</td>
+                    <td><img src="{{ recomend.Imagen }}" alt="Imagen del componente" width="100"></td>
+                    <td>{{ recomend.Equipo }}</td>
+                    <td>{{ recomend.Modelo }}</td>
+                    <td>{{ recomend.Marca }}</td>
+                    <td>${{ recomend.Costo }}</td>
+                    <td>{{ recomend.Velocidad_Red }} Gbps</td>
+                    <td>{{ recomend.Año }}</td>
+                    <td>{{ recomend.approval_Index }}%</td>
+                </tr>
                 {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </ul>
-      </div>
+            </tbody>
+        </table>
+    </div>
       
       <div id="chat-icon" onclick="toggleChatbox()"></div> <!-- Icono de chat -->
 

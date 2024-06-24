@@ -1,62 +1,62 @@
 /* Estilos para el encabezado */
 .header {
-    background-color: rgba(5, 112, 155, 0.507);
-    padding: 20px;
-    text-align: center;
+  background-color: rgba(5, 112, 155, 0.507);
+  padding: 20px;
+  text-align: center;
 }
 
 /* Estilos para el logo */
 .header__logo {
-    height: 50px;
+  height: 50px;
 }
 /* Estilos para la navegación */
 .header__nav {
-    background-color: #343a40;
-    color: #fff;
+  background-color: #343a40;
+  color: #fff;
 }
 
 .header__nav-item {
-    list-style: none;
-    display: inline-block;
-    margin: 0 10px;
+  list-style: none;
+  display: inline-block;
+  margin: 0 10px;
 }
 
 .header__nav-item a {
-    color: #fff;
-    text-decoration: none;
+  color: #fff;
+  text-decoration: none;
 }
 body {
-    font-family: Arial, sans-serif;
-    background-color: rgba(5, 112, 155, 0.507);
-    margin: 0;
-    padding: 0px;
+  font-family: Arial, sans-serif;
+  background-color: rgba(5, 112, 155, 0.507);
+  margin: 0;
+  padding: 0px;
 }
 .container-sm{
-    max-width: 1200px;
-    margin: auto;
-    color: #000000;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: auto;
+  color: #000000;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 h1 {
-    text-align: center;
-    color: #333;
+  text-align: center;
+  color: #333;
 }
 .network-diagram {
-    text-align: center;
-    margin-top: 20px;
+  text-align: center;
+  margin-top: 20px;
 }
 .node {
-    fill: #4CAF50;
-    stroke: #333;
-    stroke-width: 2px;
+  fill: #4CAF50;
+  stroke: #333;
+  stroke-width: 2px;
 }
 .link {
-    stroke: #999;
-    stroke-width: 2px;
+  stroke: #999;
+  stroke-width: 2px;
 }
 .label {
-    font-size: 12px;
-    fill: #000;
-    text-anchor: middle;
+  font-size: 12px;
+  fill: #000;
+  text-anchor: middle;
 }

@@ -27,6 +27,14 @@
         {% if mensaje %}
         <div class="alert alert-danger" role="alert">{{ mensaje }}</div>
         {% endif %}
+        <div class="container">
+          {% if mensaje2 %}
+              <div class="alert alert-success" role="alert">
+                  {{ mensaje2 }}
+              </div>
+          {% endif %}
+       </div>
+
         <div class="input-group">
           
           <i class="fa-solid fa-envelope"></i>

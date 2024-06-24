@@ -45,3 +45,28 @@
 .titulo_tabla{
     text-align: center;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    background: url("/static/fondo1.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table img {
+    max-width: 100px;
+    height: auto;
+}
+h1{
+    text-align: center;
+    background-color: rgb(178, 230, 243);
+    border-radius: 50px;
+}

@@ -8,16 +8,8 @@
     "contacto": "Puedes contactarnos al correo contacto@adntelecom.com o al teléfono +51 123 456 789.",
     "cisco 350 series cbs350-24t-4g-uk": "MARCA - Cisco | Descripción - Este modelo incluye 24 puertos Gigabit Ethernet y 4 puertos combinados SFP, que permiten conexiones flexibles de enlace ascendente | Año - El Cisco 350 Series fue lanzado en 2020 | Costo - $400 a $600 USD",
     "cisco 250 series sg250-26-k9-uk": "MARCA - Cisco | Descripción - Este switch gestionado con 26 puertos proporciona características avanzadas de red y seguridad | Año - El Cisco 250 Series fue lanzado en 2018 | Costo - $200 a $400 USD",
-    "cisco 110 series switch sf110d-16hp": "MARCA - Cisco | Descripción - Este modelo incluye 16 puertos Fast Ethernet con soporte PoE (Power over Ethernet), ideal para pequeñas oficinas o redes domésticas | Año - El Cisco 110 Series fue lanzado en 2015 | Costo - $100 a $200 USD",
-    "zte-f670l": "MARCA - ZTE | Descripción - simultáneamente en doble banda 802.11b/g/n@2.4G y 802.11a/n/ac@5G con una velocidad de hasta Gigabits | Año - zte este es el año de lanzamiento 2020 | Costo -  $150.00",
-    "zte-f660v5.2":"MARCA - ZTE | Descripción - 4GE + 2 PUERTOS + WIFI para enrutador ZTE F660 es un terminal de red óptica GPON diseñado para el escenario FTTH | Año - el año de lanzamiento del producto es 2021 | Costo - $22.00",
-    "p1201-08": "MARCA - TP LINK | Descripción -  proporciona 4 puertos de enlace ascendente Gigabit Combo (RJ45 + SFP) y dos puertos 10G SFP +. Respaldo de Fuente de Alimentación | Año - el año de lanzamiento del producto es 2011 | Costo - $930.00",
-    "fd1608s-b0": "MARCA - C-DATA | Descripción - dispositivo para montaje en rack de 1U con 1 interfaz USB, 4 puertos GE de enlace ascendente, 4 puertos SFP de enlace ascendente, 2*10GE de enlace ascendente y 8 puertos GPON | Año - el año de lanzamiento es el 2009 | Costo -  $685.00",
-    "ma5800-x17": "MARCA - HUAWEI | Descripción - generación con capacidad de 40G, tiene 17 ranuras de servicio, cada ranura de servicio tiene una capacidad de rendimiento de 200G y evoluciona sin problemas a 40G/100G PON | Año - el lanzamiento del producto es el 2012 | Costo - $980.00",
-    "zte-f660v6.0": "MARCA - ZTE | Descripción - es una unidad terminal óptica GPON con puertos 1GE + 3FE + 2OLLAS + WIFI + 1USB Este modelo está diseñado para el escenario FTTH | Año - el año de lanzamiento es el 2019 | Costo - $120.00",
-    "zxhnf660": "MARCA - ZTE | Descripción - es una unidad terminal óptica GPON con puertos 1GE + 3FE + 2OLLAS + WIFI + 1USB Este modelo está diseñado para el escenario FTTH | Año - el año de lanzamiento del producto es el 2018 | Costo - $200.00",
-    "10gbe": "MARCA - QNAP | Descripción -  Esta tarjeta NIC PCI Express 10G le permite agregar un puerto Ethernet a su servidor u computador de escritorio y acceder a su red a varias velocidades: 10G, 5G, 2,5G, 1G y 100Mbps | Año - fecha de lanzamiento 2013 | Costo - $496.00",
-    "dgs-125": "MARCA - D-LINK | Descripción -  4 puertos uplink 10G SFP+; Gestión Layer 2 y Layer 3 Lite (Static Routing); Interfaz gráfica Web GUI, puerto de consola | Año - lanzamiento del producto 2004 | Costo - $320.00",
-    "rb4011igs": "MARCA - MIKROTIK | Descripción -  routers sorpendentemente poderosos con 10 puertos Gigabit, interfaces SFP+ de 10Gbps, y protocolo IPsec | Año - la fecha de lanzamiento es el 2009 | Costo -  $160.00"
+    "cisco 110 series switch sf110d-16hp": "MARCA - Cisco | Descripción - Este modelo incluye 16 puertos Fast Ethernet con soporte PoE (Power over Ethernet), ideal para pequeñas oficinas o redes domésticas | Año - El Cisco 110 Series fue lanzado en 2015 | Costo - $100 a $200 USD"
+
+
         
 }

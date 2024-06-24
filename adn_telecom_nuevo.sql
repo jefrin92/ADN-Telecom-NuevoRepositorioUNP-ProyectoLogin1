@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-06-2024 a las 20:50:31
+-- Tiempo de generación: 13-06-2024 a las 20:32:31
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 8.1.10
 
@@ -46,10 +46,10 @@ CREATE TABLE `componentes` (
 
 INSERT INTO `componentes` (`ID`, `EQUIPO`, `MODELO`, `MARCA`, `COSTO`, `Velocidad_Red`, `Year`, `Estructura_Red`, `Nro_Puertos`, `approval_Index`) VALUES
 (1, 'ONU\r\n', 'ZXHNF660\r\n', 'ZTE\r\n', 200, 1, 2018, 0, 10, 7.0611),
-(2, 'ROUTERBOARD\r\n', 'Hex-RB760IGS\r\n', 'MIKROTIK\r\n', 120, 1000, 2018, 0, 6, 8.48953),
+(2, 'ONU\r\n', 'ZTE-F670L\r\n', 'ZTE\r\n', 150, 100, 2020, 0, 20, 8.48953),
 (3, 'ONU\r\n', 'ZTE-F668\r\n', 'ZTE\r\n', 100, 500, 2015, 0, 3, 6.27206),
 (4, 'ONU', 'ZTE-F660V6.0', 'ZTE', 120, 1, 2019, 0, 1, 7.21401),
-(5, 'ROUTERBOARD', 'RB951G-2HnD', 'MIKROTIK', 100, 1000, 2019, 0, 5, 8.46096),
+(5, 'ONU', 'ZTE-F660V5.2', 'ZTE', 22, 1000, 2021, 0, 4, 8.46096),
 (6, 'ONU', 'ZTE-F643', 'ZTE', 20, 100, 2018, 0, 5, 5.71721),
 (7, 'ONU', 'ZTE-F660', 'ZTE', 35, 1000, 2019, 0, 5, 6.37564),
 (8, 'ONU', 'ZTE-F627', 'ZTE', 38, 1000, 2020, 0, 4, 6.35267),

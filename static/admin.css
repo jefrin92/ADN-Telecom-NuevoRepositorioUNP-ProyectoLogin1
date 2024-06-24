@@ -8,6 +8,7 @@
 body {
     
     background: url("/static/pxfuel.jpg") no-repeat center center fixed;
+    background-size: cover;
 }
 /* Estilos para el logo */
 .header__logo {

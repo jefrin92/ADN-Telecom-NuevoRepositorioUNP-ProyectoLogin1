@@ -1,4 +1,7 @@
-
+ body{
+    background: url("/static/fondo1.jpg") no-repeat center center fixed;
+    background-size: cover;
+ }
 .formulario {
     width: 500px;
     background-color: #fff;

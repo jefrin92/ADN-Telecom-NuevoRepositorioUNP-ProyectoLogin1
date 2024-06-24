@@ -61,50 +61,50 @@
         </nav>
     </div>
     <div class="caja">
-    <div class="container-md">
-    <div>
-      <h1>Recomendaciones de Componentes de Red</h1>
-      <form id="recomendacionesForm" method="post">
-          <input type="hidden" id="sliderInput" name="num_recommendations" value="{{ num_recommendations }}">
-          <div id="slider"></div>
-          <div><h4>Número de recomendaciones</h4><h4 id="slider-value">{{ num_recommendations }}</h4></div>
-      </form>
-     </div>
-      
-
-      <!-- Tarjetas de recomendaciones -->
-      <div class="row mt-5">
-        {% for item in recomend %}
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <img
-              src="{{ item['Imagen'] }}"
-              class="card-img-top"
-              alt="Imagen de componente"
-            />
-            <div class="card-body">
-              <h5 class="card-title">{{ item['Modelo'] }}</h5>
-              <p class="card-text">
-                <strong>Modelo:</strong> {{ item['Equipo'] }}<br />
-                <strong>Marca:</strong> {{ item['Marca'] }}<br />
-                <strong>Costo:</strong> {{ item['Costo'] }}<br />
-                <strong>Año:</strong> {{ item['Año'] }}<br />
-                <strong>Velocidad de red:</strong> {{ item['Velocidad de Red']
-                }} Gbps<br />
-                <strong>Índice de aprobación:</strong> {{item['approval_Index']}}% 
-              </p>
+      <div class="container-md">
+      <div>
+        <h1>Recomendaciones de Componentes de Red</h1>
+        <form id="recomendacionesForm" method="post">
+            <input type="hidden" id="sliderInput" name="num_recommendations" value="{{ num_recommendations }}">
+            <div id="slider"></div>
+            <div><h4>Número de recomendaciones</h4><h4 id="slider-value">{{ num_recommendations }}</h4></div>
+        </form>
+       </div>
+        
+  
+        <!-- Tarjetas de recomendaciones -->
+        <div class="row mt-5">
+          {% for item in recomend %}
+          <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+              <img
+                src="{{ item['Imagen'] }}"
+                class="card-img-top"
+                alt="Imagen de componente"
+              />
+              <div class="card-body">
+                <h5 class="card-title">{{ item['Modelo'] }}</h5>
+                <p class="card-text">
+                  <strong>Modelo:</strong> {{ item['Equipo'] }}<br />
+                  <strong>Marca:</strong> {{ item['Marca'] }}<br />
+                  <strong>Costo:</strong> {{ item['Costo'] }}<br />
+                  <strong>Año:</strong> {{ item['Año'] }}<br />
+                  <strong>Velocidad de red:</strong> {{ item['Velocidad de Red'] }} Gbps<br />
+                  <strong>Índice de aprobación:</strong> {{item['approval_Index']}}% 
+                </p>
+              </div>
             </div>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
+       
       </div>
-     
     </div>
   </div>
-</div>
-    <script src="/static/slider.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js"></script>
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  </body>
+      <script src="/static/slider.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js"></script>
+      
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     
+</body>
 </html>

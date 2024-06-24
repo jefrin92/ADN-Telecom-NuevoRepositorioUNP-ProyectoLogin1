@@ -1,9 +1,10 @@
 /* General body styles */
-body {
+body, html {
   margin: 0;
   padding: 0;
+  height: 100%;
   background: url("/static/pxfuel.jpg") no-repeat center center fixed;
-  background-size: center;
+  background-size: cover;
   font-family: sans-serif;
   display: flex;
   align-items: center;

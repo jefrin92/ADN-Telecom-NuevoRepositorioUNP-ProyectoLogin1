@@ -75,39 +75,36 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     },
   });
+// Datos para la gráfica de índice de aprobación
+var approvalData = JSON.parse(document.getElementById("approvalIndices").textContent);
+var labelsAprobacion = approvalData.map(function (item) {
+  return item.MODELO;
+});
+var dataAprobacion = approvalData.map(function (item) {
+  return item.approval_Index;
+});
 
-  // Datos para la gráfica de índice de aprobación
-  var approvalData = JSON.parse(
-    document.getElementById("approvalIndices").textContent
-  );
-  var labelsAprobacion = approvalData.map(function (item) {
-    return item.MODELO;
-  });
-  var dataAprobacion = approvalData.map(function (item) {
-    return item.approval_Index;
-  });
-
-  new Chart(ctxAprobacion, {
-    type: "bar",
-    data: {
-      labels: labelsAprobacion,
-      datasets: [
-        {
-          label: "Índice de Aprobación (%)",
-          data: dataAprobacion,
-          backgroundColor: "rgba(255, 99, 132, 0.2)",
-          borderColor: "rgba(255, 99, 132, 1)",
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 100,
-        },
+new Chart(ctxAprobacion, {
+  type: "bar",
+  data: {
+    labels: labelsAprobacion,
+    datasets: [
+      {
+        label: "Índice de Aprobación (%)",
+        data: dataAprobacion,
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 1,
+      },
+    ],
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 100,
       },
     },
-  });
+  },
+});
 });

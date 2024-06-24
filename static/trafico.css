@@ -2,7 +2,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background: url("/static/fondo1.jpg") no-repeat center center fixed;
+    background-size: cover;
   }
   
   .caja {
@@ -63,3 +64,20 @@ body {
     margin-left: 200px;
   
   }
+ 
+.container {
+  
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+    width: 100%;
+}
+.mt-5{
+  text-align: center;
+}
+
+.btn-primary{
+  margin-left: 40%;
+  width: 20%; 
+  
+}

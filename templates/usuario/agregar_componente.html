@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Componente</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">ADN Telecom</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarText"
+            aria-controls="navbarText"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/admin"
+                  >Inicio</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/registro">Registro</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/listar">Listar</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/resultados">Resultados</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/componentes">Componentes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">Salir</a>
+              </li>
+            </ul>
+            <span class="navbar-text"> </span>
+          </div>
+        </div>
+      </nav>
+
+
+
+
+
+
+    <div class="container">
+        <h2>Agregar Componente</h2>
+        <form method="POST" action="/agregar_componente">
+            <div class="form-group">
+                <label for="EQUIPO">Equipo</label>
+                <input type="text" class="form-control" id="EQUIPO" name="EQUIPO" required>
+            </div>
+            <div class="form-group">
+                <label for="MODELO">Modelo</label>
+                <input type="text" class="form-control" id="MODELO" name="MODELO" required>
+            </div>
+            <div class="form-group">
+                <label for="MARCA">Marca</label>
+                <input type="text" class="form-control" id="MARCA" name="MARCA" required>
+            </div>
+            <div class="form-group">
+                <label for="COSTO">Costo</label>
+                <input type="number" class="form-control" id="COSTO" name="COSTO" required>
+            </div>
+            <div class="form-group">
+                <label for="Velocidad_Red">Velocidad de Red</label>
+                <input type="number" class="form-control" id="Velocidad_Red" name="Velocidad_Red" required>
+            </div>
+            <div class="form-group">
+                <label for="Year">Año</label>
+                <input type="number" class="form-control" id="Year" name="Year" required>
+            </div>
+            <div class="form-group">
+                <label for="Estructura_Red">Estructura de Red</label>
+                <input type="number" class="form-control" id="Estructura_Red" name="Estructura_Red" required>
+            </div>
+            <div class="form-group">
+                <label for="Nro_Puertos">Número de Puertos</label>
+                <input type="number" class="form-control" id="Nro_Puertos" name="Nro_Puertos" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="Imagen">URL de la Imagen</label>
+                <input type="url" class="form-control" id="Imagen" name="Imagen" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar</button>
+            <a href="{{ url_for('componentes') }}" class="btn btn-secondary">Regresar</a>
+        </form>
+        
+    </div>
+</body>
+</html>

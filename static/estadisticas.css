@@ -58,7 +58,8 @@
     border-radius: 25px;
 }
 body{
-    background-color: rgba(5, 112, 155, 0.507);
+    background: url("/static/fondo1.jpg") no-repeat center center fixed;
+    background-size: cover;
 }
 h1{
     padding-top: 40px;
