@@ -1,40 +1,14 @@
-/* Estilos para el encabezado */
-.header {
-  background-color: rgba(5, 112, 155, 0.507);
-  padding: 20px;
-  text-align: center;
-}
-
-/* Estilos para el logo */
-.header__logo {
-  height: 50px;
-}
-/* Estilos para la navegación */
-.header__nav {
-  background-color: #343a40;
-  color: #fff;
-}
-
-.header__nav-item {
-  list-style: none;
-  display: inline-block;
-  margin: 0 10px;
-}
-
-.header__nav-item a {
-  color: #fff;
-  text-decoration: none;
-}
 body {
   font-family: Arial, sans-serif;
-  background-color: rgba(5, 112, 155, 0.507);
+  background: url("/static/fondo1.jpg") no-repeat center center fixed;
+  background-size: cover;
   margin: 0;
-  padding: 0px;
+  padding: 0;
 }
-.container-sm{
+.container {
   max-width: 1200px;
   margin: auto;
-  color: #000000;
+  background: #fff;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -47,7 +21,7 @@ h1 {
   margin-top: 20px;
 }
 .node {
-  fill: #4CAF50;
+  fill: #4caf50;
   stroke: #333;
   stroke-width: 2px;
 }

@@ -19,7 +19,7 @@ app = Flask(__name__, template_folder='templates')
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'adn_telecom_nuevo'
+app.config['MYSQL_DB'] = 'adn_telecom'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
@@ -130,11 +130,11 @@ def home():
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html',correo=session['correo'])
+    return render_template('admin.html')
 
 @app.route('/usuario')
 def usuario():
-    return render_template('usuario.html',correo=session['correo'])
+    return render_template('usuario.html')
 
 @app.route('/componentes')
 def componentes():
@@ -143,7 +143,7 @@ def componentes():
     cur.execute("SELECT * FROM componentes")
     data = cur.fetchall()
     cur.close()
-    return render_template('/usuario/componentes.html',correo=session['correo'], componentes=data)
+    return render_template('/usuario/componentes.html', componentes=data)
 
 
 @app.route('/agregar_componente', methods=['GET', 'POST'])
@@ -161,16 +161,18 @@ def agregar_componente():
         imagen = request.form['Imagen']
         create_component(mysql, equipo, modelo, marca, costo, velocidad_red, year, estructura_red, nro_puertos, descripcion, imagen)
         return redirect(url_for('componentes'))
-    return render_template('/usuario/agregar_componente.html',correo=session['correo'])
+    return render_template('/usuario/agregar_componente.html')
 
 def create_component(mysql, equipo, modelo, marca, costo, velocidad_red, year, estructura_red, nro_puertos, descripcion, imagen):
     cur = mysql.connection.cursor()
     cur.execute("""
         INSERT INTO componentes (EQUIPO, MODELO, MARCA, COSTO, Velocidad_Red, Year, Estructura_Red, Nro_Puertos, descripcion, Imagen)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """, (equipo, modelo, marca, costo, velocidad_red, year, estructura_red, nro_puertos, descripcion, imagen))
     mysql.connection.commit()
     cur.close()
+ 
+    
 @app.route('/editar_componente/<int:id>', methods=['GET', 'POST'])
 def editar_componente(id):
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -244,7 +246,7 @@ def recomendaciones():
         for rec in updated_recomend
     ]
 
-    return render_template('/usuario/recomendaciones.html',correo=session['correo'], recomend=updated_recomend, num_recommendations=num_recommendations)
+    return render_template('/usuario/recomendaciones.html', recomend=updated_recomend, num_recommendations=num_recommendations)
 
 @app.route('/estadisticas')
 def estadisticas():
@@ -277,7 +279,7 @@ def estadisticas():
 
     recomendaciones_global = df.to_dict(orient='records')  # Asegúrate de que tienes la variable recomendaciones_global
     
-    return render_template('/usuario/estadisticas.html',correo=session['correo'], estadisticas=estadisticas_data, recomendaciones=recomendaciones_global)
+    return render_template('/usuario/estadisticas.html', estadisticas=estadisticas_data, recomendaciones=recomendaciones_global)
 
 @app.route('/resultados')
 def resultados():
@@ -301,7 +303,7 @@ def resultados():
     # Ordenar los resultados por índice de aprobación en orden descendente
     updated_recomend2 = sorted(updated_recomend2, key=lambda x: x['approval_Index'], reverse=True)
     
-    return render_template('/usuario/resultados.html',correo=session['correo'], recomend2=updated_recomend2)
+    return render_template('/usuario/resultados.html', recomend2=updated_recomend2)
 
 @app.route('/acceso-login', methods=['GET', 'POST'])
 def adn_telecom():
@@ -312,19 +314,21 @@ def adn_telecom():
         cur = mysql.connection.cursor()
         cur.execute('SELECT * FROM usuarios WHERE correo = %s AND password = %s', (_correo, _password))
         account = cur.fetchone()
+        
+        print(f"Datos de la cuenta obtenidos: {account}")  # Depuración
        
         if account:
             session['logueado'] = True
             session['id'] = account['id']
             session['id_rol'] = account['id_rol']
-            session['correo'] = account['correo']# Guarda el correro electronico de la sesion
            
             if session['id_rol'] == 1:
-                return render_template('admin.html', correo=session['correo'])   
+                return render_template('admin.html')   
             elif session['id_rol'] == 2:
-                return render_template('usuario.html', correo=session['correo'])
+                return render_template('usuario.html')
           
-        else:    
+        else:
+            print("Correo o contraseña incorrectos")  # Depuración    
             return render_template('index.html', mensaje='Usuario o contraseña incorrecta')
 
 @app.route('/registro')
@@ -338,14 +342,22 @@ def crear_registro():
         correo = request.form['txtCorreo']
         password = request.form['txtPassword']
         
-        cur = mysql.connection.cursor()
-        cur.execute('INSERT INTO usuarios(nombre, correo, password, id_rol) VALUES(%s,%s,%s,2)', (nombre, correo, password))
+        # Verificar si el correo ya existe
+        cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cur.execute('SELECT * FROM usuarios WHERE correo = %s', (correo,))
+        account = cur.fetchone()
+        
+        if account:
+            return render_template('registro.html', mensaje='El correo ya está registrado, elija otro.')
+
+        cur.execute('INSERT INTO usuarios(nombre, correo, password, id_rol) VALUES(%s, %s, %s, 2)', (nombre, correo, password))
         mysql.connection.commit()
         cur.close()
         
         mensaje2 = 'Registro exitoso'
-        return render_template('index.html', mensaje2=mensaje2)
+        return render_template('registro.html', mensaje2=mensaje2)
     return render_template('registro.html')
+
 @app.route('/listar', methods=['GET', 'POST'])
 def listar():
     cur = mysql.connection.cursor()
@@ -353,7 +365,7 @@ def listar():
     usuarios = cur.fetchall()
     cur.close()
     
-    return render_template('listar_usuarios.html',correo=session['correo'], usuarios=usuarios)
+    return render_template('listar_usuarios.html', usuarios=usuarios)
 
 @app.route('/eliminar/<string:id>')
 def eliminar(id):
@@ -380,24 +392,24 @@ def actualizar(id):
 
 @app.route('/modificar/<id>', methods=['GET', 'POST'])
 def modificar(id):
-    cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM usuarios WHERE id = %s', (id,))
-    usuarios = cur.fetchone()
-    cur.close()
-
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     if request.method == 'POST':
         nombre = request.form['txtNombre']
         correo = request.form['txtCorreo']
         password = request.form['txtPassword']
         
-        cur = mysql.connection.cursor()
-        cur.execute('UPDATE usuarios SET nombre=%s, correo=%s, password=%s WHERE id=%s', (nombre, correo, password, int(id)))
+        # Actualizar el usuario
+        cur.execute('UPDATE usuarios SET nombre=%s, correo=%s, password=%s WHERE id=%s', (nombre, correo, password, id))
         mysql.connection.commit()
         cur.close()
         return redirect('/listar')
-    
-    return render_template('editar_usuarios.html',correo=session['correo'], usuarios=usuarios)
-
+    else:
+        # Obtener los datos del usuario
+        cur.execute('SELECT * FROM usuarios WHERE id = %s', (id,))
+        usuario = cur.fetchone()
+        cur.close()
+        
+        return render_template('editar_usuarios.html', usuario=usuario)
 @app.route('/estructura', methods=['GET', 'POST'])
 def listar_estructura():
     cur = mysql.connection.cursor()
@@ -417,7 +429,7 @@ def listar_estructura():
         cur.close()
         return redirect('/listar')
     
-    return render_template('usuario/estructura.html',correo=session['correo'], estructura=estructura)
+    return render_template('usuario/estructura.html', estructura=estructura)
 
     # Ruta para obtener la respuesta del bot
 @app.route('/get_response', methods=['POST'])
@@ -463,7 +475,7 @@ def trafico():
             error = "Formato de fecha y hora incorrecto."
             return render_template('/usuario/trafico.html', error=error)
 
-    return render_template('/usuario/trafico.html',correo=session['correo'])
+    return render_template('/usuario/trafico.html')
 
 #Asignamos la zona horaria local
 local_timezone = pytz.timezone("America/Lima")  # Cambia esto a tu zona horaria local
@@ -600,7 +612,7 @@ def mostrar_trafico():
 
     subtitles = [f"Imagen {i + 1}" for i in range(len(plot_paths))]
 
-    return render_template('/usuario/mostrar_trafico.html',correo=session['correo'], plot_paths=plot_paths, resumen=resumen, subtitles=subtitles, enumerate=enumerate, json=json)
+    return render_template('/usuario/mostrar_trafico.html', plot_paths=plot_paths, resumen=resumen, subtitles=subtitles, enumerate=enumerate, json=json)
 #apr alimpiar  el buffer de plot
 
 @app.route('/limpiar_archivos_y_volver')

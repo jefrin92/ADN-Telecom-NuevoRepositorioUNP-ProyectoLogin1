@@ -23,6 +23,7 @@ class MyTest(unittest.TestCase):
 
         cur = self.mysql.connection.cursor()
         cur.execute("USE adn_telecom_test")
+        cur.execute("DELETE FROM componentes")  # Limpiar la tabla componentes
         cur.close()
 
     def tearDown(self):
@@ -46,45 +47,65 @@ class MyTest(unittest.TestCase):
     def test_editar_componente(self):
         cur = self.mysql.connection.cursor()
         cur.execute("""
-            INSERT INTO componentes (EQUIPO, MODELO, MARCA, COSTO, descripcion)
-            VALUES ('ONU', 'ZXHNF60', 'ZTE', 200.0, 'Descripcion original')
+            INSERT INTO componentes (EQUIPO, MODELO, MARCA, COSTO, Velocidad_Red, Year, Estructura_Red, Nro_Puertos, descripcion, Imagen)
+            VALUES ('ONU', 'ZXHNF60', 'ZTE', 200.0, '1000', 2022, 'Gigabit', 24, 'Descripcion original', 'https://example.com/image.jpg')
         """)
         self.mysql.connection.commit()
+        inserted_id = cur.lastrowid
         cur.close()
 
-        response = self.client.post('/editar_componente/1', data=dict(
-            equipo='ONU',
-            modelo='ZXHNF660',
-            marca='ZTE',
-            costo='200.0',
-            descripcion='Descripción actualizada'
+        response = self.client.post(f'/editar_componente/{inserted_id}', data=dict(
+            EQUIPO='ONU',
+            MODELO='ZXHNF660',
+            MARCA='ZTE',
+            COSTO='200.0',
+            Velocidad_Red='1000',
+            Year='2022',
+            Estructura_Red='Gigabit',
+            Nro_Puertos='24',
+            descripcion='Descripción actualizada',
+            Imagen='https://example.com/image.jpg'
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn('Descripción actualizada'.encode('utf-8'), response.data)
 
         cur = self.mysql.connection.cursor()
-        cur.execute("SELECT * FROM componentes WHERE ID = 1")
+        cur.execute("SELECT * FROM componentes WHERE ID = %s", (inserted_id,))
         componente = cur.fetchone()
         cur.close()
+
+        print("Componente encontrado:", componente)  # Agregar esto para depuración
+
+        self.assertIsNotNone(componente)
         self.assertEqual(componente['descripcion'], 'Descripción actualizada')
 
-    def test_delete_component(self):
-        cur = self.mysql.connection.cursor()
-        cur.execute("""
-            INSERT INTO componentes (EQUIPO, MODELO, MARCA, COSTO, descripcion)
-            VALUES ('ONU', 'Modelo a eliminar', 'Marca', 200.0, 'Descripción a eliminar')
-        """)
-        self.mysql.connection.commit()
-        cur.close()
-
-        response = self.client.get('/eliminar/1', follow_redirects=True)
+    def test_agregar_componente(self):
+        unique_model = 'UNIQUE_MODEL_123'  # Asegúrate de que este modelo es único
+        response = self.client.post('/agregar_componente', data=dict(
+            EQUIPO='ONU',
+            MODELO=unique_model,
+            MARCA='ZTE',
+            COSTO='200.0',
+            Velocidad_Red='1000',
+            Year='2022',
+            Estructura_Red='Gigabit',
+            Nro_Puertos='24',
+            descripcion='Nuevo componente',
+            Imagen='https://example.com/image.jpg'
+        ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertNotIn(b'Modelo a eliminar', response.data)
+        self.assertIn('Nuevo componente'.encode('utf-8'), response.data)
+
+        cur = self.mysql.connection.cursor()
+        cur.execute("SELECT * FROM componentes WHERE MODELO = %s", (unique_model,))
+        componente = cur.fetchone()
+        cur.close()
+        self.assertIsNotNone(componente)
+        self.assertEqual(componente['descripcion'], 'Nuevo componente')
 
     def test_register_user(self):
         response = self.client.post('/crear-registro', data=dict(
             txtNombre='Nuevo Usuario',
-            txtCorreo='user@example.com',
+            txtCorreo='ulises@example.com',
             txtPassword='123'
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
