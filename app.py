@@ -367,13 +367,15 @@ def listar():
     
     return render_template('listar_usuarios.html', usuarios=usuarios)
 
-@app.route('/eliminar/<string:id>')
 def eliminar(id):
+    print(f"Eliminando usuario con ID: {id}")  # Agregar esto para depuración
     cur = mysql.connection.cursor()
-    cur.execute('DELETE FROM usuarios WHERE id = {0}'.format(id))
-    mysql.connection.commit()
-    
-    return redirect('/listar')
+    try:
+        cur.execute('DELETE FROM usuarios WHERE ID = %s', (id,))
+        mysql.connection.commit()
+    finally:
+        cur.close()
+    return redirect(url_for('listar'))
 
 @app.route('/actualizar/<int:id>', methods=['POST'])
 def actualizar(id):
@@ -383,7 +385,7 @@ def actualizar(id):
 
     cur = mysql.connection.cursor()
     try:
-        cur.execute('UPDATE usuarios SET nombre = %s, correo = %s, password = %s WHERE id = %s', (nombre, correo, password, id))
+        cur.execute('UPDATE usuarios SET nombre = %s, correo = %s, password = %s WHERE ID = %s', (nombre, correo, password, id))
         mysql.connection.commit()
     finally:
         cur.close()
@@ -399,13 +401,13 @@ def modificar(id):
         password = request.form['txtPassword']
         
         # Actualizar el usuario
-        cur.execute('UPDATE usuarios SET nombre=%s, correo=%s, password=%s WHERE id=%s', (nombre, correo, password, id))
+        cur.execute('UPDATE usuarios SET nombre=%s, correo=%s, password=%s WHERE ID=%s', (nombre, correo, password, id))
         mysql.connection.commit()
         cur.close()
         return redirect('/listar')
     else:
         # Obtener los datos del usuario
-        cur.execute('SELECT * FROM usuarios WHERE id = %s', (id,))
+        cur.execute('SELECT * FROM usuarios WHERE ID = %s', (id,))
         usuario = cur.fetchone()
         cur.close()
         
