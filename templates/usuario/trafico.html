@@ -6,46 +6,41 @@
     <title>Medición de Tráfico</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/trafico.css">
-
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4404/4404366.png" type="image/png" />
 </head>
 <body>
     <div>
-        <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
-          <!-- Tu código de barra de navegación aquí -->
-       <span class="navbar-text" align='center' alt="top" width="10px" height="10px">
-        <image src='https://img.icons8.com/color/48/user.png' />
-         {{ correo }}
-       </span>
-            <div class="container-fluid">
-              <img src="/static/image/logo.png" class="header__logo" />
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/usuario">Inicio</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/estadisticas">Estadisticas</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/recomendaciones">Recomendaciones</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/trafico">Trafico</a>
-                </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/">Salir</a>
-                  </li>
-                </ul>
-                <span class="navbar-text">
-                
-                </span>
-              </div>
-            </div>
-          </nav>
-      </div>
+      <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <img src="/static/image/logo.png" class="header__logo" />
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/usuario">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/estadisticas">Estadisticas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/recomendaciones">Recomendaciones</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/trafico">Trafico</a>
+            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">Salir</a>
+              </li>
+            </ul>
+            <span class="navbar-text">
+            
+            </span>
+          </div>
+        </div>
+      </nav>
+    </div>
     <div class="container">
         <h1 class="mt-5">Medición de Tráfico</h1>
         <form method="post">

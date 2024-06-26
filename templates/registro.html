@@ -17,6 +17,7 @@
       crossorigin="anonymous"
     ></script>
     <title>ADN Telecom: Recomendaciones para colegios</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4404/4404366.png" type="image/png" />
   </head>
   <body>
     <div>
@@ -27,22 +28,22 @@
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav ">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/admin">Inicio</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/registro">Registro</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/listar">Listar</a>
+                <a class="nav-link" href="/listar">Usuarios</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/resultados">Resultados</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/componentes">Componentes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/estructura">Estructura</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/">Salir</a>
@@ -60,14 +61,14 @@
       <form action="crear-registro" method="post" class="login-form">
         <h2>Registro</h2>
         <!-----ALERTAS--->
-        {% if mensaje2 %}
-        <div class="alert alert-success d-flex align-items-center" role="alert">
-            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-            <div>
-                {{ mensaje2 }}
-            </div>
-          </div>
+        {% if mensaje %}
+            <div class="alert alert-danger">{{ mensaje }}</div>
         {% endif %}
+
+
+        {% if mensaje2 %}
+        <div class="alert alert-success">{{ mensaje2 }}</div>
+    {% endif %}
         
         <div class="input-group">
             <i class="fa-solid fa-user"></i>
@@ -108,6 +109,7 @@
 
         <button type="submit" class="boton">Registrar</button>
       </form>
+      <a class="btn btn-primary" href="/listar">Volver al inicio</a>
     </div>
   </body>
 </html>

@@ -64,3 +64,15 @@ body {
   margin-left: 200px;
 
 }
+
+.navbar {
+  padding: 1rem 2rem;
+}
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.navbar-nav .nav-link {
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+}
